@@ -11,7 +11,7 @@ public class MouseHandler : MonoBehaviour
     private void  Awake() {
         if(INSTANCE == null) {
             INSTANCE = this;
-            Debug.Log("MouseHandler instance created.");
+            //Debug.Log("MouseHandler instance created.");
         } else {
             Debug.LogError("More than one MouseHandler instance created.");
             Destroy(gameObject);

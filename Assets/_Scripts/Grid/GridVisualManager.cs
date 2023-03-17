@@ -12,7 +12,7 @@ public class GridVisualManager : MonoBehaviour {
     private void  Awake() {
         if(INSTANCE == null) {
             INSTANCE = this;
-            Debug.Log("GridVisualManager instance created.");
+            //Debug.Log("GridVisualManager instance created.");
         } else {
             Debug.LogError("More than one GridVisualManager instance created.");
             Destroy(gameObject);

@@ -12,7 +12,7 @@ public class GridSystemHandler : MonoBehaviour {
     {
         if(INSTANCE == null) {
             INSTANCE = this;
-            Debug.Log("GridSystemHandler instance created.");
+            //Debug.Log("GridSystemHandler instance created.");
         } else {
             Debug.LogError("More than one GridSystemHandler instance created.");
             Destroy(gameObject);

@@ -37,6 +37,7 @@ public class MoveAction : MonoBehaviour
             //Once unit reaches the  target destination, UnitActionSystem is no longer busy.
             if(Vector3.Distance(transform.position, moveToPosition) <= stoppingDistance) {
                 onMoveComplete();
+                //Debug.Log("Unit has reached their destination.");
             }
         } 
 
@@ -44,6 +45,7 @@ public class MoveAction : MonoBehaviour
 
     public void Move(TilePosition position, Action onMoveComplete) {
         this.onMoveComplete = onMoveComplete;
+        //Debug.Log("Moving unit to new position.");
         this.moveToPosition = GridSystemHandler.INSTANCE.GetWorldPosition(position);
     }
 
