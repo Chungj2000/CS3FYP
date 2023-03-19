@@ -6,6 +6,7 @@ public class GridVisualManager : MonoBehaviour {
     
     public static GridVisualManager INSTANCE {get; private set;}
     [SerializeField] private Transform gridVisualPf;
+    [SerializeField] private LayerMask GridVisualLayerMask;
 
     private GridVisualSingle[,] gridVisualArray;
 
@@ -37,6 +38,11 @@ public class GridVisualManager : MonoBehaviour {
         }
 
     }
+    
+    private void Update() {
+        UpdateGridVisual();
+        HoverGridTileVisual();
+    }
 
     public void HideAllGridVisuals() {
 
@@ -54,6 +60,9 @@ public class GridVisualManager : MonoBehaviour {
 
         foreach(TilePosition tilePosition in tilePositionList) {
             gridVisualArray[tilePosition.x, tilePosition.z].ShowVisual();
+
+            //Maintain default MeshRender color of GridVisualSingles for objects that are not mouse overed.
+            GridTileVisualDefault(tilePosition);
         }
 
     }
@@ -65,8 +74,25 @@ public class GridVisualManager : MonoBehaviour {
         ShowValidGridVisuals(selectedUnit.GetMoveAction().ListValidMovePositions());
     }
 
-    private void Update() {
-        UpdateGridVisual();
+    //Change the MeshRender colour of a mouse overed GridVisualSingle.
+    private void HoverGridTileVisual() {
+        Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if(Physics.Raycast(mouseRay, out RaycastHit raycastHit, float.MaxValue, GridVisualLayerMask)) {
+
+            //Debug.Log("Visual found.");
+
+            //Get the Visual object of the hovered over GridVisualSingle and transform it's colour.
+            if(raycastHit.transform.TryGetComponent<GridVisualSingle>(out GridVisualSingle gridVisual)) {
+                gridVisual.HoverGridVisual();
+            }
+
+        }
+    }
+
+    //Non-hovered GridVisualSingles will default to white for their MeshRender colour.
+    private void GridTileVisualDefault(TilePosition tilePosition) {
+        gridVisualArray[tilePosition.x, tilePosition.z].HoverGridVisualDefault();
     }
 
 }

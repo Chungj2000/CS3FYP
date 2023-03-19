@@ -13,4 +13,13 @@ public class GridVisualSingle : MonoBehaviour {
     public void HideVisual() {
         meshRenderer.enabled = false;
     }
+
+    public void HoverGridVisual() {
+        meshRenderer.material.color = Color.green;
+    }
+
+    public void HoverGridVisualDefault() {
+        meshRenderer.material.color = Color.white;
+    }
+
 }
