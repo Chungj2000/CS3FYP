@@ -9,14 +9,15 @@ public class MoveAction : MonoBehaviour
     private Vector3 moveToPosition;
     private UnitHandler unit;
     private Action onMoveComplete;
-    [SerializeField] float moveSpeed = 4f;
-    [SerializeField] float rotateSpeed = 30f;
+    [SerializeField] private float moveSpeed = 4f;
+    [SerializeField] private float rotateSpeed = 30f;
 
-    [SerializeField] int maxMoveDistance = 3;
+    private int maxMoveDistance;
 
     private void Awake() {
         moveToPosition = transform.position;
         unit = GetComponent<UnitHandler>();
+        maxMoveDistance = unit.GetParamMOVE();
     }
 
     private void Update() {
@@ -63,7 +64,6 @@ public class MoveAction : MonoBehaviour
 
                 //Validate positions. Invalid tile positions are passed.
                 if(!GridSystemHandler.INSTANCE.IsValidPosition(testTilePosition)) {
-                    //Skip invalid tiles.
                     continue;
                 }
 
@@ -77,7 +77,11 @@ public class MoveAction : MonoBehaviour
                     continue;
                 }
                 
-                validMovePositionsList.Add(testTilePosition);
+                //Validate positions within a range of max move distance cost for diagonal movement.
+                if((Mathf.Abs(x + z) <= maxMoveDistance) && (Mathf.Abs(x - z) <= maxMoveDistance)) {
+                    validMovePositionsList.Add(testTilePosition);
+                }
+
                 //Debug.Log(testTilePosition);
 
             }

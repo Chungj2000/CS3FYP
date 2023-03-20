@@ -3,8 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitHandler : MonoBehaviour
-{
+public class UnitHandler : MonoBehaviour {
+
+    //Default Parameters for Units.
+    [SerializeField] private int paramHP = 10;
+    [SerializeField] private int paramATK = 5;
+    [SerializeField] private int paramDEF = 2;
+    [SerializeField] private int paramMOVE = 3;
+
 
     private TilePosition tilePosition;
     private MoveAction moveAction;
@@ -56,6 +62,22 @@ public class UnitHandler : MonoBehaviour
 
     private void TurnSystem_OnEndTurn(object sender, EventArgs e) {
         ResetActionUsed();
+    }
+
+    public int GetParamHP() {
+        return paramHP;
+    }
+
+    public int GetParamATK() {
+        return paramATK;
+    }
+
+    public int GetParamDEF() {
+        return paramDEF;
+    }
+
+    public int GetParamMOVE() {
+        return paramMOVE;
     }
 
 }

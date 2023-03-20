@@ -7,7 +7,7 @@ public class CameraInputHandler : MonoBehaviour
 {
     
     [SerializeField] private float moveSpeed = 7.5f;
-    [SerializeField] private float zoomSpeed = 5f;
+    [SerializeField] private float zoomSpeed = 2f;
     [SerializeField] private float rotationSpeed = 100f;
     [SerializeField] private CinemachineVirtualCamera vCamera;
     private const float MIN_FOV = 25f;
@@ -44,7 +44,7 @@ public class CameraInputHandler : MonoBehaviour
     private void ZoomCamera() {
         Vector2 cameraZoomInput = cameraInputActions.Camera.CameraZoomInputs.ReadValue<Vector2>().normalized;
         //Change to + for reverse zoom.
-        vCamera.m_Lens.FieldOfView -= cameraZoomInput.y;
+        vCamera.m_Lens.FieldOfView -= cameraZoomInput.y * zoomSpeed;
         //Establish zoom limits.
         vCamera.m_Lens.FieldOfView = Mathf.Clamp(vCamera.m_Lens.FieldOfView, MIN_FOV, MAX_FOV);
     }
