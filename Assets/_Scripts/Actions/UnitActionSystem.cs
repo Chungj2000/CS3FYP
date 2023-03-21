@@ -28,11 +28,21 @@ public class UnitActionSystem : MonoBehaviour
 
         //Prevent additional actions from being called if an action is already being executed.
         if(isBusy) {
+            //Debug.Log("An action is already being run.");
             return;
         }
 
+        /**
+         * Prevent Player 1 from interacting with units on Player 2 turn.
+         *
+        if(!TurnSystem.INSTANCE.IsPlayer1Turn()) {
+            return;
+        }
+        **/
+
         //Assign a new move to position upon left clicking a target location.
         if(Input.GetMouseButtonDown(0)) {
+
             //Debug.Log("Mouse triggered.");
             if(TryHandleUnitSelection()) return;
 
@@ -61,8 +71,23 @@ public class UnitActionSystem : MonoBehaviour
 
         if(Physics.Raycast(mouseRay, out RaycastHit raycastHit, float.MaxValue, unitLayerMask)) {
 
+            //Debug.Log("A Unit layer found.");
+
             //Assign unit selected unit if possible.
             if(raycastHit.transform.TryGetComponent<UnitHandler>(out UnitHandler unit)) {
+                
+                //Cannot select an already selected unit.
+                if(unit == selectedUnit) {
+                    //Debug.Log("Unit already selected.");
+                    return false;
+                }
+
+                //Cannot select an enemy unit.
+                if(unit.IsEnemy()) {
+                    //Debug.Log("Cannot select an enemy.");
+                    return false;
+                }
+                
                 //Debug.Log("New unit selected.");
                 SetSelectedUnit(unit);
                 return true;
@@ -75,17 +100,19 @@ public class UnitActionSystem : MonoBehaviour
 
     private void SetSelectedUnit(UnitHandler unit) {
         selectedUnit = unit;
-
+        //Debug.Log("Selected unit has been changed.");
         OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
     }
 
     //Setters for single active action logic.
     private void SetBusy() {
         isBusy = true;
+        //Debug.Log("An action is being run.");
     }
 
     private void ClearBusy() {
         isBusy = false;
+        //Debug.Log("Action is now available.");
     }
 
     public UnitHandler GetSelectedUnit() {

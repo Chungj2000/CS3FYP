@@ -29,11 +29,11 @@ public class MoveAction : MonoBehaviour
         if(Vector3.Distance(transform.position, moveToPosition) > stoppingDistance) {
             Vector3 moveDirection = (moveToPosition - transform.position).normalized;
 
-            //Move the unit.
-            transform.position += moveDirection * moveSpeed * Time.deltaTime;
-
             //Smoothly rotate the unit to moving direction.
             transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+
+            //Move the unit.
+            transform.position += moveDirection * moveSpeed * Time.deltaTime;
 
             //Once unit reaches the  target destination, UnitActionSystem is no longer busy.
             if(Vector3.Distance(transform.position, moveToPosition) <= stoppingDistance) {

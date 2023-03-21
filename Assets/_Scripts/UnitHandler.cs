@@ -10,8 +10,9 @@ public class UnitHandler : MonoBehaviour {
     [SerializeField] private int paramATK = 5;
     [SerializeField] private int paramDEF = 2;
     [SerializeField] private int paramMOVE = 3;
+    [SerializeField] private int paramATK_RANGE = 1;
 
-
+    [SerializeField] private bool isEnemy;
     private TilePosition tilePosition;
     private MoveAction moveAction;
     private bool actionUsed;
@@ -56,8 +57,28 @@ public class UnitHandler : MonoBehaviour {
     }
 
     public void ResetActionUsed() {
-        Debug.Log("A unit has regained their action.");
-        actionUsed = false;
+
+        if((!IsEnemy() && TurnSystem.INSTANCE.IsPlayer1Turn()) || 
+            (IsEnemy() && !TurnSystem.INSTANCE.IsPlayer1Turn())) {
+
+            //Reset action of Player 1's unit when on Player 1's turn and vice versa.
+
+            //Debug.Log("A unit has regained their action.");
+            
+            actionUsed = false;
+
+        } else if ((!IsEnemy() && !TurnSystem.INSTANCE.IsPlayer1Turn()) || 
+                    (IsEnemy() && TurnSystem.INSTANCE.IsPlayer1Turn())){
+
+            //Player 1 units cannot perform actions on Player 2 turn and vice versa.
+            SetActionUsed();
+
+            //Debug.Log("Action consumed.");
+
+            return;
+
+        } 
+
     }
 
     private void TurnSystem_OnEndTurn(object sender, EventArgs e) {
@@ -78,6 +99,14 @@ public class UnitHandler : MonoBehaviour {
 
     public int GetParamMOVE() {
         return paramMOVE;
+    }
+
+    public int GetParamATK_RANGE() {
+        return paramATK_RANGE;
+    }
+
+    public bool IsEnemy() {
+        return isEnemy;
     }
 
 }
