@@ -3,20 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveAction : MonoBehaviour
-{
+public class MoveAction : AbstractAction {
 
     private Vector3 moveToPosition;
-    private UnitHandler unit;
-    private Action onMoveComplete;
     [SerializeField] private float moveSpeed = 4f;
     [SerializeField] private float rotateSpeed = 30f;
 
     private int maxMoveDistance;
 
-    private void Awake() {
+    protected override void Awake() {
+        base.Awake();
         moveToPosition = transform.position;
-        unit = GetComponent<UnitHandler>();
         maxMoveDistance = unit.GetParamMOVE();
     }
 
@@ -37,20 +34,21 @@ public class MoveAction : MonoBehaviour
 
             //Once unit reaches the  target destination, UnitActionSystem is no longer busy.
             if(Vector3.Distance(transform.position, moveToPosition) <= stoppingDistance) {
-                onMoveComplete();
+                onActionComplete();
                 //Debug.Log("Unit has reached their destination.");
             }
         } 
 
     }
 
-    public void Move(TilePosition position, Action onMoveComplete) {
-        this.onMoveComplete = onMoveComplete;
+    public override void PrepareAction(TilePosition position, Action onMoveComplete) {
+        this.onActionComplete = onMoveComplete;
         //Debug.Log("Moving unit to new position.");
         this.moveToPosition = GridSystemHandler.INSTANCE.GetWorldPosition(position);
     }
 
-    public List<TilePosition> ListValidMovePositions() {
+    //Create a list of positions the unit can move to.
+    public override List<TilePosition> ListValidActionPositions() {
 
         List<TilePosition> validMovePositionsList = new List<TilePosition>();
 
@@ -89,11 +87,6 @@ public class MoveAction : MonoBehaviour
 
         return validMovePositionsList;
 
-    }
-
-    public bool IsValidMoveAction(TilePosition position) {
-        List<TilePosition> validMoveActionList = ListValidMovePositions();
-        return validMoveActionList.Contains(position);
     }
 
 }

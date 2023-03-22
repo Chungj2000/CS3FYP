@@ -39,4 +39,14 @@ public class GridTile {
         return units.Count > 0;
     }
 
+    public UnitHandler GetUnit() {
+        if(HasAUnit()) {
+            //Debug.Log("Unit found.");
+            return units[0];
+        } else {
+            //Debug.Log("No Units found.");
+            return null;
+        }
+    }
+
 }

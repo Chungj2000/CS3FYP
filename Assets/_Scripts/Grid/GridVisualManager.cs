@@ -67,11 +67,12 @@ public class GridVisualManager : MonoBehaviour {
 
     }
 
+    //Update grid visuals whenever an action of AbstractAction is called.
     public void UpdateGridVisual() {
         HideAllGridVisuals();
 
-        UnitHandler selectedUnit = UnitActionSystem.INSTANCE.GetSelectedUnit();
-        ShowValidGridVisuals(selectedUnit.GetMoveAction().ListValidMovePositions());
+        AbstractAction currentAction = UnitActionSystem.INSTANCE.GetCurrentAction();
+        ShowValidGridVisuals(currentAction.ListValidActionPositions());
     }
 
     //Change the MeshRender colour of a mouse overed GridVisualSingle.

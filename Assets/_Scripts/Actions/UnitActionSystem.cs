@@ -2,16 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class UnitActionSystem : MonoBehaviour
-{
+public class UnitActionSystem : MonoBehaviour {
 
     public static UnitActionSystem INSTANCE {get; private set;}
-    public event EventHandler OnSelectedUnitChanged;
-    private bool isBusy;
     
     [SerializeField] private UnitHandler selectedUnit;
     [SerializeField] private LayerMask unitLayerMask;
+
+    public event EventHandler OnSelectedUnitChanged;
+
+    private AbstractAction currentAction;
+    private bool isBusy;
 
     private void  Awake() {
         if(INSTANCE == null) {
@@ -24,11 +27,19 @@ public class UnitActionSystem : MonoBehaviour
         }
     }
 
+    private void Start() {
+        SetSelectedUnit(selectedUnit);
+    }
+
     private void Update() {
 
         //Prevent additional actions from being called if an action is already being executed.
         if(isBusy) {
             //Debug.Log("An action is already being run.");
+            return;
+        }
+
+        if(EventSystem.current.IsPointerOverGameObject()) {
             return;
         }
 
@@ -55,10 +66,10 @@ public class UnitActionSystem : MonoBehaviour
             TilePosition mouseTilePosition = GridSystemHandler.INSTANCE.GetTilePosition(MouseHandler.INSTANCE.GetMousePosition());
 
             //Determine if the selected tile is valid, if so move the unit to the selected tile.
-            if(selectedUnit.GetMoveAction().IsValidMoveAction(mouseTilePosition)) {
+            if(selectedUnit.GetMoveAction().IsValidActionTilePosition(mouseTilePosition)) {
 
                 SetBusy();
-                selectedUnit.GetMoveAction().Move(mouseTilePosition, ClearBusy);
+                selectedUnit.GetMoveAction().PrepareAction(mouseTilePosition, ClearBusy);
 
                 //Selected unit can no longer move for this turn.
                 selectedUnit.SetActionUsed();
@@ -76,10 +87,21 @@ public class UnitActionSystem : MonoBehaviour
             //Assign unit selected unit if possible.
             if(raycastHit.transform.TryGetComponent<UnitHandler>(out UnitHandler unit)) {
                 
-                //Cannot select an already selected unit.
+                //Reselecting a selected unit updates visuals for targetable enemies.
                 if(unit == selectedUnit) {
+
                     //Debug.Log("Unit already selected.");
+                    SetCurrentAction(selectedUnit.GetAttackAction());
+                    
+                    /**
+                     * Unit Test for listing enemy positions found.
+                    for(int x = 0; x < currentAction.ListValidActionPositions().Count; x++) {
+                        Debug.Log(currentAction.ListValidActionPositions()[x]);
+                    }
+                    **/
+
                     return false;
+                    
                 }
 
                 //Cannot select an enemy unit.
@@ -99,9 +121,22 @@ public class UnitActionSystem : MonoBehaviour
     }
 
     private void SetSelectedUnit(UnitHandler unit) {
+
         selectedUnit = unit;
         //Debug.Log("Selected unit has been changed.");
+
+        //Default action to move when selecting a new unit.
+        SetCurrentAction(unit.GetMoveAction());
+
         OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void SetCurrentAction(AbstractAction action) {
+        currentAction = action;
+    }
+
+    public AbstractAction GetCurrentAction() {
+        return currentAction;
     }
 
     //Setters for single active action logic.

@@ -28,11 +28,6 @@ public class GridSystemHandler : MonoBehaviour {
         gridTile.AddUnit(unit);
     }
 
-    public List<UnitHandler> GetUnitAtTilePosition(TilePosition tilePosition) {
-        GridTile gridTile = gridSystem.GetGridTile(tilePosition);
-        return gridTile.GetUnitList();
-    }
-
     public void RemoveUnitAtGridPosition(TilePosition tilePosition, UnitHandler unit) {
         GridTile gridTile = gridSystem.GetGridTile(tilePosition);
         gridTile.RemoveUnit(unit);
@@ -57,4 +52,15 @@ public class GridSystemHandler : MonoBehaviour {
         GridTile gridTile = gridSystem.GetGridTile(position);
         return gridTile.HasAUnit();
     }
+    
+    public List<UnitHandler> GetUnitsAtTilePosition(TilePosition tilePosition) {
+        GridTile gridTile = gridSystem.GetGridTile(tilePosition);
+        return gridTile.GetUnitList();
+    }
+
+    public UnitHandler GetAUnitAtTilePosition(TilePosition position) {
+        GridTile gridTile = gridSystem.GetGridTile(position);
+        return gridTile.GetUnit();
+    }
+
 }

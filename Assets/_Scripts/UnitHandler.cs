@@ -15,10 +15,12 @@ public class UnitHandler : MonoBehaviour {
     [SerializeField] private bool isEnemy;
     private TilePosition tilePosition;
     private MoveAction moveAction;
+    private AttackAction attackAction;
     private bool actionUsed;
 
     private void Awake() {
         moveAction = GetComponent<MoveAction>();
+        attackAction = GetComponent<AttackAction>();
     }
 
     private void Start() {
@@ -41,6 +43,10 @@ public class UnitHandler : MonoBehaviour {
 
     public MoveAction GetMoveAction() {
         return moveAction;
+    }
+
+    public AttackAction GetAttackAction() {
+        return attackAction;
     }
 
     public TilePosition getTilePosition() {

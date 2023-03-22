@@ -14,7 +14,7 @@ public class Testing : MonoBehaviour
     private void Update() {
         if(Input.GetKeyDown(KeyCode.T)) {
             GridVisualManager.INSTANCE.HideAllGridVisuals();
-            GridVisualManager.INSTANCE.ShowValidGridVisuals(unit.GetMoveAction().ListValidMovePositions());
+            GridVisualManager.INSTANCE.ShowValidGridVisuals(unit.GetMoveAction().ListValidActionPositions());
         }
     }
     
