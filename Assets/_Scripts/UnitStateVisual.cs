@@ -24,12 +24,12 @@ public class UnitStateVisual : MonoBehaviour {
     //Determine the visual state for the Unit Visual State mesh renderer object.
     private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e) {
 
-        if(UnitActionSystem.INSTANCE.GetSelectedUnit() == unit && !unit.IsActionUsed()) {
+        if(UnitActionSystem.INSTANCE.GetSelectedUnit() == unit && !unit.IsMoveActionUsed()) {
 
             //When selected and has available action, turn green.
             meshRenderer.material.color = selectedUnitAvailable;
 
-        } else if (UnitActionSystem.INSTANCE.GetSelectedUnit() == unit && unit.IsActionUsed()) {
+        } else if (UnitActionSystem.INSTANCE.GetSelectedUnit() == unit && unit.IsMoveActionUsed()) {
 
             //When selected and doesn't have available action, turn red.
             meshRenderer.material.color = selectedUnitUnavailable;

@@ -55,26 +55,12 @@ public class UnitActionSystem : MonoBehaviour {
         if(Input.GetMouseButtonDown(0)) {
 
             //Debug.Log("Mouse triggered.");
+
             if(TryHandleUnitSelection()) return;
 
-            //If unit has already performed an action, prevent further action.
-            if(selectedUnit.IsActionUsed()) {
-                Debug.Log("Unit has already performed an action.");
-                return;
-            }
-
-            TilePosition mouseTilePosition = GridSystemHandler.INSTANCE.GetTilePosition(MouseHandler.INSTANCE.GetMousePosition());
-
-            //Determine if the selected tile is valid, if so move the unit to the selected tile.
-            if(selectedUnit.GetMoveAction().IsValidActionTilePosition(mouseTilePosition)) {
-
-                SetBusy();
-                selectedUnit.GetMoveAction().PrepareAction(mouseTilePosition, ClearBusy);
-
-                //Selected unit can no longer move for this turn.
-                selectedUnit.SetActionUsed();
-            }
+            HandleCurrentAction();
         }
+
     }
 
     private bool TryHandleUnitSelection() {
@@ -87,12 +73,32 @@ public class UnitActionSystem : MonoBehaviour {
             //Assign unit selected unit if possible.
             if(raycastHit.transform.TryGetComponent<UnitHandler>(out UnitHandler unit)) {
                 
-                //Reselecting a selected unit updates visuals for targetable enemies.
+                //Reselecting a selected unit updates visuals for targetable enemies for AttackActions.
                 if(unit == selectedUnit) {
 
                     //Debug.Log("Unit already selected.");
-                    SetCurrentAction(selectedUnit.GetAttackAction());
-                    
+
+                    //If selectable targets for attack are found set current action to Attack else default to Move.
+                    if(unit.GetAttackAction().ListValidActionPositions().Count > 0) {
+
+                        //Logic for selecting and deselecting the attack action when reclicking the selected unit.
+                        if(currentAction == selectedUnit.GetAttackAction()) {
+                            //If already selected, deselect attack action.
+                            SetCurrentAction(selectedUnit.GetMoveAction());
+                        } else {
+                            //Else select attack action.
+                            SetCurrentAction(selectedUnit.GetAttackAction());
+                        }
+                        
+                        //Debug.Log("Viable attack targets found. Current Action: " + currentAction);
+
+                    } else {
+
+                        SetCurrentAction(selectedUnit.GetMoveAction());
+                        //Debug.Log("Unable to find viable targets. Current Action: " + currentAction);
+
+                    }
+
                     /**
                      * Unit Test for listing enemy positions found.
                     for(int x = 0; x < currentAction.ListValidActionPositions().Count; x++) {
@@ -137,6 +143,57 @@ public class UnitActionSystem : MonoBehaviour {
 
     public AbstractAction GetCurrentAction() {
         return currentAction;
+    }
+
+    private void HandleCurrentAction() {
+
+        TilePosition mouseTilePosition = GridSystemHandler.INSTANCE.GetTilePosition(MouseHandler.INSTANCE.GetMousePosition());
+
+        //If unit has already performed an attack action, prevent further actions.
+        if(selectedUnit.IsAttackActionUsed()) {
+            //Debug.Log("Unit has already performed an attack action.");
+            return;
+        }
+
+        //If current action is Attack execute attack logic.
+        if(currentAction == selectedUnit.GetAttackAction()) {
+
+            //Debug.Log(currentAction);
+
+            if(selectedUnit.GetAttackAction().IsValidActionTilePosition(mouseTilePosition)) {
+
+                SetBusy();
+                selectedUnit.GetAttackAction().PrepareAction(mouseTilePosition, ClearBusy);
+                //Debug.Log("Attack performed.");
+
+                //Selected unit can no longer attack or move for this turn.
+                selectedUnit.SetAttackActionUsed();
+            }
+        }
+
+        //If unit has already performed a move action, prevent further move actions.
+        if(selectedUnit.IsMoveActionUsed()) {
+            //Debug.Log("Unit has already performed a move action.");
+            return;
+        }
+
+        //If current action is Move execute attack logic.
+        if(currentAction == selectedUnit.GetMoveAction()) {
+
+            //Debug.Log(currentAction);
+
+            //Determine if the selected tile is valid, if so move the unit to the selected tile.
+            if(selectedUnit.GetMoveAction().IsValidActionTilePosition(mouseTilePosition)) {
+
+                SetBusy();
+                selectedUnit.GetMoveAction().PrepareAction(mouseTilePosition, ClearBusy);
+                //Debug.Log("Move performed.");
+
+                //Selected unit can no longer move for this turn.
+                selectedUnit.SetMoveActionUsed();
+            }
+        }
+
     }
 
     //Setters for single active action logic.

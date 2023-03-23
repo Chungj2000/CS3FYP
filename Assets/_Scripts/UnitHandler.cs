@@ -16,7 +16,8 @@ public class UnitHandler : MonoBehaviour {
     private TilePosition tilePosition;
     private MoveAction moveAction;
     private AttackAction attackAction;
-    private bool actionUsed;
+    private bool moveActionUsed;
+    private bool attackActionUsed;
 
     private void Awake() {
         moveAction = GetComponent<MoveAction>();
@@ -53,13 +54,29 @@ public class UnitHandler : MonoBehaviour {
         return tilePosition;
     }
 
-    public bool IsActionUsed() {
-        return actionUsed;
+    public Vector3 GetWorldPosition() {
+        return transform.position;
     }
 
-    public void SetActionUsed() {
-        //Debug.Log("Unit has spent their action.");
-        actionUsed = true;
+    public bool IsMoveActionUsed() {
+        return moveActionUsed;
+    }
+
+    public void SetMoveActionUsed() {
+        //Debug.Log("Unit has spent their move action.");
+        moveActionUsed = true;
+    }
+
+    public bool IsAttackActionUsed() {
+        return attackActionUsed;
+    }
+
+    public void SetAttackActionUsed() {
+        //Debug.Log("Unit has spent their attack and move action.");
+        attackActionUsed = true;
+
+        //If a unit has attacked, they can no longer move.
+        moveActionUsed = true;
     }
 
     public void ResetActionUsed() {
@@ -68,16 +85,17 @@ public class UnitHandler : MonoBehaviour {
             (IsEnemy() && !TurnSystem.INSTANCE.IsPlayer1Turn())) {
 
             //Reset action of Player 1's unit when on Player 1's turn and vice versa.
-
-            //Debug.Log("A unit has regained their action.");
             
-            actionUsed = false;
+            moveActionUsed = false;
+            attackActionUsed = false;
+            
+            //Debug.Log("A unit has regained their actions.");
 
         } else if ((!IsEnemy() && !TurnSystem.INSTANCE.IsPlayer1Turn()) || 
                     (IsEnemy() && TurnSystem.INSTANCE.IsPlayer1Turn())){
 
             //Player 1 units cannot perform actions on Player 2 turn and vice versa.
-            SetActionUsed();
+            SetAttackActionUsed();
 
             //Debug.Log("Action consumed.");
 
@@ -89,6 +107,10 @@ public class UnitHandler : MonoBehaviour {
 
     private void TurnSystem_OnEndTurn(object sender, EventArgs e) {
         ResetActionUsed();
+    }
+
+    public void TakeDamage() {
+        Debug.Log(transform + " has been damaged.");
     }
 
     public int GetParamHP() {

@@ -5,25 +5,34 @@ using UnityEngine;
 
 public class MoveAction : AbstractAction {
 
-    private Vector3 moveToPosition;
     [SerializeField] private float moveSpeed = 4f;
     [SerializeField] private float rotateSpeed = 30f;
 
     private int maxMoveDistance;
+    private Vector3 moveToPosition;
+    private bool isActive;
 
     protected override void Awake() {
         base.Awake();
         moveToPosition = transform.position;
         maxMoveDistance = unit.GetParamMOVE();
+        isActive = false;
     }
 
     private void Update() {
+
+        //If action is not active, do nothing.
+        if(!isActive) {
+            //Debug.Log("Move Action active: " + isActive);
+            return;
+        }
 
         //Stops the unit before the point.
         float stoppingDistance = .01f;
 
         //Move the unit until the distance between the end point and unit is less than the stopping distance.
         if(Vector3.Distance(transform.position, moveToPosition) > stoppingDistance) {
+            //Get the normalized value for moving towards destination.
             Vector3 moveDirection = (moveToPosition - transform.position).normalized;
 
             //Smoothly rotate the unit to moving direction.
@@ -36,13 +45,21 @@ public class MoveAction : AbstractAction {
             if(Vector3.Distance(transform.position, moveToPosition) <= stoppingDistance) {
                 onActionComplete();
                 //Debug.Log("Unit has reached their destination.");
+
+                //Turn off move updates, until action is activated again.
+                isActive = false;
             }
         } 
 
     }
 
     public override void PrepareAction(TilePosition position, Action onMoveComplete) {
+        //Turn on action Updates.
+        isActive = true;
+        //Debug.Log("Move Action active: " + isActive);
+
         this.onActionComplete = onMoveComplete;
+
         //Debug.Log("Moving unit to new position.");
         this.moveToPosition = GridSystemHandler.INSTANCE.GetWorldPosition(position);
     }
