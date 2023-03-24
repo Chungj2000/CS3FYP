@@ -28,13 +28,13 @@ public class GridSystemHandler : MonoBehaviour {
         gridTile.AddUnit(unit);
     }
 
-    public void RemoveUnitAtGridPosition(TilePosition tilePosition, UnitHandler unit) {
+    public void RemoveUnitAtTilePosition(TilePosition tilePosition, UnitHandler unit) {
         GridTile gridTile = gridSystem.GetGridTile(tilePosition);
         gridTile.RemoveUnit(unit);
     }
 
     public void UnitMovedTilePosition(UnitHandler unit, TilePosition fromTilePosition, TilePosition toTilePosiition) {
-        RemoveUnitAtGridPosition(fromTilePosition, unit);
+        RemoveUnitAtTilePosition(fromTilePosition, unit);
         AddUnitAtTilePosition(toTilePosiition, unit);
     }
 

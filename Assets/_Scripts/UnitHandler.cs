@@ -6,18 +6,24 @@ using UnityEngine;
 public class UnitHandler : MonoBehaviour {
 
     //Default Parameters for Units.
-    [SerializeField] private int paramHP = 10;
+    [SerializeField] private static int paramMAX_HP = 10;
+    [SerializeField] private int paramHP = paramMAX_HP;
     [SerializeField] private int paramATK = 5;
     [SerializeField] private int paramDEF = 2;
     [SerializeField] private int paramMOVE = 3;
     [SerializeField] private int paramATK_RANGE = 1;
 
     [SerializeField] private bool isEnemy;
+
+    private int minimumDamage = 1;
+
     private TilePosition tilePosition;
     private MoveAction moveAction;
     private AttackAction attackAction;
     private bool moveActionUsed;
     private bool attackActionUsed;
+
+    public event EventHandler OnDamaged;
 
     private void Awake() {
         moveAction = GetComponent<MoveAction>();
@@ -109,12 +115,40 @@ public class UnitHandler : MonoBehaviour {
         ResetActionUsed();
     }
 
-    public void TakeDamage() {
-        Debug.Log(transform + " has been damaged.");
+    public void TakeDamage(int damageValue) {
+
+        if(damageValue - paramDEF <= 0) {
+            //If enemy defence is greater than attack value, default the damage received to 1.
+            paramHP -= minimumDamage;
+            Debug.Log(transform + " has received minimum damage.");
+        } else {
+            paramHP -= Mathf.Abs(damageValue - paramDEF);
+            Debug.Log(transform + " has received " + (paramDEF - damageValue) + " damage.");
+        }
+
+        OnDamaged?.Invoke(this, EventArgs.Empty);
+        
+        Debug.Log(transform + " has received damage. Current Unit HP at: " + paramHP);
+
+        CheckIsDead();
+
+    }
+
+    private void CheckIsDead() {
+        if(paramHP <= 0) {
+            Debug.Log(transform + " has been killed.");
+            //Remove the unit reference.
+            GridSystemHandler.INSTANCE.RemoveUnitAtTilePosition(tilePosition, this);
+            Destroy(gameObject);
+        }
     }
 
     public int GetParamHP() {
         return paramHP;
+    }
+
+    public float GetCurrentHealth() {
+        return (float) paramHP / paramMAX_HP;
     }
 
     public int GetParamATK() {

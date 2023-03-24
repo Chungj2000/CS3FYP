@@ -11,7 +11,7 @@ public class UnitActionSystem : MonoBehaviour {
     [SerializeField] private UnitHandler selectedUnit;
     [SerializeField] private LayerMask unitLayerMask;
 
-    public event EventHandler OnSelectedUnitChanged;
+    public event EventHandler OnSelectedUnitStateChanged;
 
     private AbstractAction currentAction;
     private bool isBusy;
@@ -134,7 +134,7 @@ public class UnitActionSystem : MonoBehaviour {
         //Default action to move when selecting a new unit.
         SetCurrentAction(unit.GetMoveAction());
 
-        OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
+        OnSelectedUnitStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void SetCurrentAction(AbstractAction action) {
@@ -151,6 +151,8 @@ public class UnitActionSystem : MonoBehaviour {
 
         //If unit has already performed an attack action, prevent further actions.
         if(selectedUnit.IsAttackActionUsed()) {
+            OnSelectedUnitStateChanged?.Invoke(this, EventArgs.Empty);
+
             //Debug.Log("Unit has already performed an attack action.");
             return;
         }
@@ -173,6 +175,8 @@ public class UnitActionSystem : MonoBehaviour {
 
         //If unit has already performed a move action, prevent further move actions.
         if(selectedUnit.IsMoveActionUsed()) {
+            OnSelectedUnitStateChanged?.Invoke(this, EventArgs.Empty);
+            
             //Debug.Log("Unit has already performed a move action.");
             return;
         }

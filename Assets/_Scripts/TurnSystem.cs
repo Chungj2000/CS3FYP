@@ -26,8 +26,10 @@ public class TurnSystem : MonoBehaviour
     public void NextTurn() {
         turnTracker++;
         //Debug.Log("Current turn: " + turnTracker);
+
         isPlayer1Turn = !isPlayer1Turn;
-        Debug.Log("Currently is the turn of Player 1: " + isPlayer1Turn);
+        //Debug.Log("Currently is the turn of Player 1: " + isPlayer1Turn);
+        
         OnEndTurn?.Invoke(this, EventArgs.Empty);
     }
 

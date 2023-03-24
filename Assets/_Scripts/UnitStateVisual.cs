@@ -18,7 +18,7 @@ public class UnitStateVisual : MonoBehaviour {
     }
 
     private void Start() {
-        UnitActionSystem.INSTANCE.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
+        UnitActionSystem.INSTANCE.OnSelectedUnitStateChanged += UnitActionSystem_OnSelectedUnitChanged;
     }
 
     //Determine the visual state for the Unit Visual State mesh renderer object.

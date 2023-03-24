@@ -8,6 +8,7 @@ public class AttackAction : AbstractAction {
     [SerializeField] private float rotateSpeed = 15f;
 
     private int attackRange;
+    private int attackParameter;
     private Action onAttackComplete; // = 10;
     private UnitHandler targetedUnit;
     private bool isActive;
@@ -105,7 +106,9 @@ public class AttackAction : AbstractAction {
     }
 
     private void Attack() {
-        targetedUnit.TakeDamage();
+        //Identify unit's attack parameter and pass it on as the base damage value.
+        attackParameter = unit.GetParamATK();
+        targetedUnit.TakeDamage(attackParameter);
     }
 
 }
