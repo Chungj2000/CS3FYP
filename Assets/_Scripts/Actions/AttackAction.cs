@@ -92,7 +92,7 @@ public class AttackAction : AbstractAction {
                     continue;
                 }
 
-                if((Mathf.Abs(x + z) <= attackRange) && (Mathf.Abs(x - z) <= attackRange)) {
+                if((Mathf.Abs(x + z) == attackRange) && (Mathf.Abs(x - z) == attackRange)) {
                     validAttackPositionsList.Add(testTilePosition);
                 }
 

@@ -39,6 +39,7 @@ public class UnitActionSystem : MonoBehaviour {
             return;
         }
 
+        //Prevent action when clicking through a UI component.
         if(EventSystem.current.IsPointerOverGameObject()) {
             return;
         }
