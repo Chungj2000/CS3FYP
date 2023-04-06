@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MainMenuHandler : AbstractMenu {
     
-    PlayMenuHandler playMenu;
-    OptionsMenuHandler optionsMenu;
+    private PlayMenuHandler playMenu;
+    private OptionsMenuHandler optionsMenu;
 
     private void Awake() {
         ShowMenu();
