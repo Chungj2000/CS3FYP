@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class MoveAction : AbstractAction {
 
@@ -27,30 +28,35 @@ public class MoveAction : AbstractAction {
             return;
         }
 
-        //Stops the unit before the point.
-        float stoppingDistance = .01f;
-
         //Move the unit until the distance between the end point and unit is less than the stopping distance.
         if(Vector3.Distance(transform.position, moveToPosition) > stoppingDistance) {
-            //Get the normalized value for moving towards destination.
-            Vector3 moveDirection = (moveToPosition - transform.position).normalized;
 
-            //Smoothly rotate the unit to moving direction.
-            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+            //Update move action on both clients.
+            view.RPC(nameof(RPC_MoveAction), RpcTarget.AllBuffered, moveToPosition);
 
-            //Move the unit.
-            transform.position += moveDirection * moveSpeed * Time.deltaTime;
-
-            //Once unit reaches the  target destination, UnitActionSystem is no longer busy.
-            if(Vector3.Distance(transform.position, moveToPosition) <= stoppingDistance) {
-                onActionComplete();
-                //Debug.Log("Unit has reached their destination.");
-
-                //Turn off move updates, until action is activated again.
-                isActive = false;
-            }
         } 
 
+    }
+
+    [PunRPC]
+    private void RPC_MoveAction(Vector3 moveToPosition) {
+        //Get the normalized value for moving towards destination.
+        Vector3 moveDirection = (moveToPosition - transform.position).normalized;
+
+        //Smoothly rotate the unit to moving direction.
+        transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+
+        //Move the unit.
+        transform.position += moveDirection * moveSpeed * Time.deltaTime;
+
+        //Once unit reaches the  target destination, UnitActionSystem is no longer busy.
+        if(Vector3.Distance(transform.position, moveToPosition) <= stoppingDistance) {
+            onActionComplete();
+            //Debug.Log("Unit has reached their destination.");
+
+            //Turn off move updates, until action is activated again.
+            isActive = false;
+        }
     }
 
     public override void PrepareAction(TilePosition position, Action onMoveComplete) {

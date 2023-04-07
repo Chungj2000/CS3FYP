@@ -2,14 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public abstract class AbstractAction : MonoBehaviour {
     
     protected UnitHandler unit;
     protected Action onActionComplete;
 
+    protected float stoppingDistance = .05f;
+
+    protected PhotonView view;
+
     protected virtual void Awake() {
         unit = GetComponent<UnitHandler>();
+        view = GetComponent<PhotonView>();
     }
 
     public abstract void PrepareAction(TilePosition position, Action onActionComplete);

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class AttackAction : AbstractAction {
 
@@ -27,27 +28,39 @@ public class AttackAction : AbstractAction {
             return;
         }
 
-        float stoppingDistance = .01f;
-
         if(Vector3.Angle(transform.forward, targetedUnit.GetWorldPosition()) > stoppingDistance) {
-            //Get the normalized value for facing the targetted unit.
-            Vector3 faceTowards = (targetedUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
 
-            //Face the unit towards target.
-            transform.forward = Vector3.Lerp(transform.forward, faceTowards, Time.deltaTime * rotateSpeed);
-            //Debug.Log("Facing towards target - " + targetedUnit.GetWorldPosition() + "," + unit.GetWorldPosition());
+            //Update attack action on both clients.
+            view.RPC(nameof(RPC_FaceTarget), RpcTarget.AllBuffered, null);
 
-            if(Vector3.Angle(transform.forward, targetedUnit.GetWorldPosition() - unit.GetWorldPosition()) <= stoppingDistance) {
-                onActionComplete();
-                //Debug.Log("Unit now facing target.");
-
-                Attack();
-
-                //Turn off move updates, until action is activated again.
-                isActive = false;
-            }
         }
 
+    }
+
+    [PunRPC]
+    private void RPC_FaceTarget() {
+
+        //Get the normalized value for facing the targetted unit.
+        Vector3 faceTowards = (targetedUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
+
+        //Face the unit towards target.
+        transform.forward = Vector3.Lerp(transform.forward, faceTowards, Time.deltaTime * rotateSpeed);
+        //Debug.Log("Facing towards target - " + targetedUnit.GetWorldPosition() + "," + unit.GetWorldPosition());
+
+        //Execute the attack.
+        PerformAttack();
+    }
+
+    private void PerformAttack() {
+        if(Vector3.Angle(transform.forward, targetedUnit.GetWorldPosition() - unit.GetWorldPosition()) <= stoppingDistance) {
+            onActionComplete();
+            //Debug.Log("Unit now facing target.");
+
+            view.RPC(nameof(Attack), RpcTarget.AllBuffered, null);
+
+            //Turn off move updates, until action is activated again.
+            isActive = false;
+        }
     }
 
     public override void PrepareAction(TilePosition position, Action onAttackComplete) {
@@ -57,9 +70,17 @@ public class AttackAction : AbstractAction {
 
         this.onActionComplete = onAttackComplete;
 
-        //Set targeted unit based on selected unit tile containing an enemy.
-        targetedUnit = GridSystemHandler.INSTANCE.GetAUnitAtTilePosition(position);
+        //Set targeted unit based on selected unit tile containing an enemy, for both clients.
+        view.RPC(nameof(SetTarget), RpcTarget.AllBuffered, position.x, position.z);
+
         Debug.Log("Attacking: " + targetedUnit);
+    }
+
+    [PunRPC]
+    private void SetTarget(int x, int z) {
+        //RPCs cannot take custom types so recreate targetted TilePosition using primitives.
+        TilePosition position = new TilePosition(x, z);
+        targetedUnit = GridSystemHandler.INSTANCE.GetAUnitAtTilePosition(position);
     }
 
     //Create a list of positions the unit can attack.
@@ -105,6 +126,7 @@ public class AttackAction : AbstractAction {
 
     }
 
+    [PunRPC]
     private void Attack() {
         //Identify unit's attack parameter and pass it on as the base damage value.
         attackParameter = unit.GetParamATK();

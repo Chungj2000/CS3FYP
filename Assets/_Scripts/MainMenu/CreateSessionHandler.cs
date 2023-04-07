@@ -79,7 +79,7 @@ public class CreateSessionHandler : MonoBehaviourPunCallbacks {
 
     //When a room is joined.
     public override void OnJoinedRoom() {
-        Debug.Log("Loading scene.");
+        Debug.Log("Player " + PhotonNetwork.LocalPlayer.ActorNumber + " has joined.");
         PhotonNetwork.LoadLevel(play);
     }
 

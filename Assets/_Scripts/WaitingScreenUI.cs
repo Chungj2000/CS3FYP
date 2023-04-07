@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class WaitingScreenUI : MonoBehaviour {
+public class WaitingScreenUI : MonoBehaviourPunCallbacks {
     
     [SerializeField] private Canvas waitingScreen;
     [SerializeField] private WaitingScreenAnimation animation;
@@ -13,12 +14,13 @@ public class WaitingScreenUI : MonoBehaviour {
     }
 
     private void Update() {
-        Debug.Log("Number of players: " + PhotonNetwork.CurrentRoom.PlayerCount);
+        //Debug.Log("Number of players: " + PhotonNetwork.CurrentRoom.PlayerCount);
 
         if(WaitingForPlayerToConnect()) {
+            animation.TurnOnAnimation();
             ShowScreen();
         } else {
-            animation.ToggleIsAnimating();
+            animation.TurnOffAnimation();
             HideScreen();
             //StartGame();
         }
@@ -43,6 +45,10 @@ public class WaitingScreenUI : MonoBehaviour {
 
     private void StartGame() {
         Destroy(this);
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer) {
+        Debug.Log("Player " + newPlayer.ActorNumber + " has joined.");
     }
 
 }

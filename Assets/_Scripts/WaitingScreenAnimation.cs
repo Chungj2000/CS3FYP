@@ -35,9 +35,13 @@ public class WaitingScreenAnimation : MonoBehaviour {
         }
     }
 
-    //Turn off animation.
-    public void ToggleIsAnimating() {
-        isAnimating = !isAnimating;
+    //Toggle animation.
+    public void TurnOnAnimation() {
+        isAnimating = true;
+    }
+
+    public void TurnOffAnimation() {
+        isAnimating = false;
     }
 
 }
