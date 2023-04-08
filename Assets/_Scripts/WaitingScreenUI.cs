@@ -22,7 +22,7 @@ public class WaitingScreenUI : MonoBehaviourPunCallbacks {
         } else {
             animation.TurnOffAnimation();
             HideScreen();
-            //StartGame();
+            StartGame();
         }
     }
 
@@ -44,6 +44,8 @@ public class WaitingScreenUI : MonoBehaviourPunCallbacks {
     }
 
     private void StartGame() {
+        //Tell the GameOverHandler to start running Update.
+        GameOverHandler.INSTANCE.SetGameIsActive();
         Destroy(this);
     }
 

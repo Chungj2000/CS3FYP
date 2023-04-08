@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public class GamePauseHandler : MonoBehaviour {
     
@@ -9,15 +9,17 @@ public class GamePauseHandler : MonoBehaviour {
 
     [SerializeField] private Canvas pauseMenuCanvas;
 
+    private PhotonView view;
     private InputActions pauseInput;
-    private bool isPaused;
-
-    private const string mainMenu = "MainMenu";
+    private bool isPaused, hasNotGivenUp;
 
     private void  Awake() {
 
+        view = GetComponent<PhotonView>();
+
         //Start the game in an unpaused state.
         isPaused = false;
+        hasNotGivenUp = true;
 
         pauseInput = new InputActions();
         pauseInput.Pause.Enable();
@@ -48,8 +50,15 @@ public class GamePauseHandler : MonoBehaviour {
         pauseMenuCanvas.enabled = isPaused;
     }
 
+    //Switch between ON or OFF.
     public void TogglePause() {
         isPaused = !isPaused;
+        PauseMenuDisplay();
+    }
+
+    //Forcefully disable pause menu instead of toggling.
+    public void TurnOffPause() {
+        isPaused = false;
         PauseMenuDisplay();
     }
 
@@ -71,9 +80,12 @@ public class GamePauseHandler : MonoBehaviour {
     public void GiveUpClicked() {
         Debug.Log("Give Up clicked.");
 
-        //Some game over logic.
+        hasNotGivenUp = false;
+        Debug.Log("Player has given up.");
 
-        SceneManager.LoadSceneAsync(mainMenu);
+        //Display GameOver UI for defeat.
+        GameOverHandler.INSTANCE.DeclareGameOver(hasNotGivenUp);
+        view.RPC(nameof(GameOverHandler.INSTANCE.DeclareGameOver), RpcTarget.AllBuffered, true);
     }
 
     public void QuitClicked() {

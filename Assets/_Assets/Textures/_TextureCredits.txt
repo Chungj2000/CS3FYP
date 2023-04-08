@@ -5,3 +5,4 @@ Health -> Me
 HealthBarBackground -> Me
 UnitStateTexture -> Me
 White_Outline -> https://www.dlf.pt/ddetail/oRRhJJ_paint-stroke-border-hd-png-download/
+YouWin/Lose_Banner -> https://www.dreamstime.com/you-lose-win-defeat-inscriptions-award-ribbons-game-ui-you-lose-win-defeat-inscriptions-award-ribbons-image218995890
