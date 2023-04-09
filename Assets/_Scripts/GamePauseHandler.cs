@@ -11,11 +11,13 @@ public class GamePauseHandler : MonoBehaviour {
 
     private PhotonView view;
     private InputActions pauseInput;
+    private OptionsMenuHandler options;
     private bool isPaused, hasNotGivenUp;
 
     private void  Awake() {
 
         view = GetComponent<PhotonView>();
+        options = GetComponent<OptionsMenuHandler>();
 
         //Start the game in an unpaused state.
         isPaused = false;
@@ -75,6 +77,8 @@ public class GamePauseHandler : MonoBehaviour {
 
     public void OptionsClicked() {
         Debug.Log("Options clicked.");
+
+        options.InitialiseOptions();
     }
 
     public void GiveUpClicked() {

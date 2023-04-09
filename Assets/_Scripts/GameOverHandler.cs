@@ -21,7 +21,7 @@ public class GameOverHandler : MonoBehaviour {
 
         if(INSTANCE == null) {
             INSTANCE = this;
-            Debug.Log("GameOverHandler instance created.");
+            //Debug.Log("GameOverHandler instance created.");
         } else {
             Debug.LogError("More than one GameOverHandler instance created.");
             Destroy(gameObject);
