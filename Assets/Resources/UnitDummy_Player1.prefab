@@ -5925,7 +5925,7 @@ GameObject:
   - component: {fileID: 3986621081163550660}
   - component: {fileID: 1262801004542180863}
   m_Layer: 7
-  m_Name: Unit
+  m_Name: UnitDummy_Player1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5965,7 +5965,9 @@ MonoBehaviour:
   paramDEF: 2
   paramMOVE: 3
   paramATK_RANGE: 1
-  isEnemy: 0
+  ownedByPlayer1: 1
+  player1Material: {fileID: 2100000, guid: c676d877ef241ab4686e2f237b1e2f13, type: 2}
+  player2Material: {fileID: 2100000, guid: 3f171282ef46c4fbea54d9ab581fcb83, type: 2}
 --- !u!65 &981976402189819333
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -111,8 +111,8 @@ public class UnitActionSystem : MonoBehaviour {
                     
                 }
 
-                //Cannot select an enemy unit.
-                if(unit.IsEnemy()) {
+                //Player cannot select units when it's not their turn.
+                if(PlayerHandler.INSTANCE.IsPlayer1() != TurnSystem.INSTANCE.IsPlayer1Turn()) {
                     //Debug.Log("Cannot select an enemy.");
                     return false;
                 }
@@ -158,8 +158,12 @@ public class UnitActionSystem : MonoBehaviour {
             return;
         }
 
+        //Allow attack actions if currently selecting a Player owned unit on their turn.
         //If current action is Attack execute attack logic.
-        if(currentAction == selectedUnit.GetAttackAction()) {
+
+        if(TurnSystem.INSTANCE.IsPlayer1Turn() == PlayerHandler.INSTANCE.IsPlayer1() &&
+            PlayerHandler.INSTANCE.IsPlayer1() == selectedUnit.IsOwnedByPlayer1() &&
+            currentAction == selectedUnit.GetAttackAction()) {
 
             //Debug.Log(currentAction);
 
@@ -183,7 +187,9 @@ public class UnitActionSystem : MonoBehaviour {
         }
 
         //If current action is Move execute attack logic.
-        if(currentAction == selectedUnit.GetMoveAction()) {
+        if(TurnSystem.INSTANCE.IsPlayer1Turn() == PlayerHandler.INSTANCE.IsPlayer1() &&
+            PlayerHandler.INSTANCE.IsPlayer1() == selectedUnit.IsOwnedByPlayer1() &&
+            currentAction == selectedUnit.GetMoveAction()) {
 
             //Debug.Log(currentAction);
 

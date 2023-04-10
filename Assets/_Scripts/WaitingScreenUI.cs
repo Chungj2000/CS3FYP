@@ -9,6 +9,12 @@ public class WaitingScreenUI : MonoBehaviourPunCallbacks {
     [SerializeField] private Canvas waitingScreen;
     [SerializeField] private WaitingScreenAnimation animation;
 
+    private TurnSystemUI turnSystemUI;
+
+    private void Awake() {
+        turnSystemUI = GetComponent<TurnSystemUI>();
+    }
+
     private void Start() {
         ShowScreen();
     }
@@ -20,9 +26,8 @@ public class WaitingScreenUI : MonoBehaviourPunCallbacks {
             animation.TurnOnAnimation();
             ShowScreen();
         } else {
-            animation.TurnOffAnimation();
-            HideScreen();
-            StartGame();
+            //Player 2 has joined therefore initiate game.
+            Initialise();
         }
     }
 
@@ -47,6 +52,27 @@ public class WaitingScreenUI : MonoBehaviourPunCallbacks {
         //Tell the GameOverHandler to start running Update.
         GameOverHandler.INSTANCE.SetGameIsActive();
         Destroy(this);
+    }
+
+    //Determine what Player the client is based on join order.
+    private void DesignatePlayer() {
+        //Debug.Log("Player is: " + PhotonNetwork.LocalPlayer.ActorNumber);
+        if(PhotonNetwork.LocalPlayer.ActorNumber == 1) {
+            Debug.Log("Client is Player 1.");
+            PlayerHandler.INSTANCE.SetAsPlayer1();
+        } else {
+            Debug.Log("Client is Player 2.");
+            PlayerHandler.INSTANCE.SetAsPlayer2();
+        }
+    }
+
+    //Adjust visibility of UI and settings.
+    private void Initialise() {
+        animation.TurnOffAnimation();
+        HideScreen();
+        DesignatePlayer();
+        turnSystemUI.ToggleButtonVisibility();
+        StartGame();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer) {

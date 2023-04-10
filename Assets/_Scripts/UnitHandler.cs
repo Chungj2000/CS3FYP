@@ -6,6 +6,7 @@ using UnityEngine;
 public class UnitHandler : MonoBehaviour {
 
     //Default Parameters for Units.
+    [Header("Unit Parameters")]
     [SerializeField] private static int paramMAX_HP = 10;
     [SerializeField] private int paramHP = paramMAX_HP;
     [SerializeField] private int paramATK = 5;
@@ -13,7 +14,11 @@ public class UnitHandler : MonoBehaviour {
     [SerializeField] private int paramMOVE = 3;
     [SerializeField] private int paramATK_RANGE = 1;
 
-    [SerializeField] private bool isEnemy;
+    [Header("Player Customize Fields")]
+    [SerializeField] private bool ownedByPlayer1;
+    [SerializeField] private Material player1Material;
+    [SerializeField] private Material player2Material;
+    private SkinnedMeshRenderer skinMeshRenderer;
 
     private int minimumDamage = 1;
 
@@ -28,13 +33,22 @@ public class UnitHandler : MonoBehaviour {
     private void Awake() {
         moveAction = GetComponent<MoveAction>();
         attackAction = GetComponent<AttackAction>();
+        skinMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
     }
 
     private void Start() {
         tilePosition = GridSystemHandler.INSTANCE.GetTilePosition(transform.position);
         GridSystemHandler.INSTANCE.AddUnitAtTilePosition(tilePosition, this);
 
+        //Differentiate between Player units using materials.
+        if(ownedByPlayer1) {
+            skinMeshRenderer.material = player1Material;
+        } else {
+            skinMeshRenderer.material = player2Material;
+        }
+
         TurnSystem.INSTANCE.OnEndTurn += TurnSystem_OnEndTurn;
+        ResetActionUsed();
     }
 
     private void Update() {
@@ -87,8 +101,14 @@ public class UnitHandler : MonoBehaviour {
 
     public void ResetActionUsed() {
 
-        if((!IsEnemy() && TurnSystem.INSTANCE.IsPlayer1Turn()) || 
-            (IsEnemy() && !TurnSystem.INSTANCE.IsPlayer1Turn())) {
+        if(IsOwnedByPlayer1() != TurnSystem.INSTANCE.IsPlayer1Turn()) {
+
+            //Player 1 units cannot perform actions on Player 2 turn and vice versa.
+            SetAttackActionUsed();
+
+            //Debug.Log("Action consumed.");
+
+        } else {
 
             //Reset action of Player 1's unit when on Player 1's turn and vice versa.
             
@@ -96,16 +116,6 @@ public class UnitHandler : MonoBehaviour {
             attackActionUsed = false;
             
             //Debug.Log("A unit has regained their actions.");
-
-        } else if ((!IsEnemy() && !TurnSystem.INSTANCE.IsPlayer1Turn()) || 
-                    (IsEnemy() && TurnSystem.INSTANCE.IsPlayer1Turn())){
-
-            //Player 1 units cannot perform actions on Player 2 turn and vice versa.
-            SetAttackActionUsed();
-
-            //Debug.Log("Action consumed.");
-
-            return;
 
         } 
 
@@ -167,8 +177,8 @@ public class UnitHandler : MonoBehaviour {
         return paramATK_RANGE;
     }
 
-    public bool IsEnemy() {
-        return isEnemy;
+    public bool IsOwnedByPlayer1() {
+        return ownedByPlayer1;
     }
 
 }

@@ -98,6 +98,7 @@ public class AttackAction : AbstractAction {
 
                 //Validate positions. Invalid tile positions are passed.
                 if(!GridSystemHandler.INSTANCE.IsValidPosition(testTilePosition)) {
+                    //Continue with the for loop.
                     continue;
                 }
 
@@ -109,7 +110,7 @@ public class AttackAction : AbstractAction {
                 UnitHandler targetUnit = GridSystemHandler.INSTANCE.GetAUnitAtTilePosition(testTilePosition);
 
                 //Ignore units of the same team.
-                if(targetUnit.IsEnemy() == unit.IsEnemy()) {
+                if(targetUnit.IsOwnedByPlayer1() == unit.IsOwnedByPlayer1()) {
                     continue;
                 }
 

@@ -18,21 +18,20 @@ public class TurnSystemUI : MonoBehaviour
         //Enable a listener for button interaction for End Turn.
         endTurnBTN.onClick.AddListener(() => {
             //Debug.Log("End Turn Button clicked.");
-            TurnSystem.INSTANCE.NextTurn();
+            TurnSystem.INSTANCE.EndTurnClicked();
         });
 
         TurnSystem.INSTANCE.OnEndTurn += TurnSystem_OnEndTurn;
 
         //Instantiate turn counter on the start of the game.
         UpdateTurnCounter();
-        //UpdateEndTurnButtonVisibility();
     }
 
     //Event for Updating Turn Counter upon button click execution.
     private void TurnSystem_OnEndTurn(object sender, EventArgs e) {
         //Debug.Log("A turn has ended.");
         UpdateTurnCounter();
-        //UpdateEndTurnButtonVisibility();
+        ToggleButtonVisibility();
     }
 
     private void UpdateTurnCounter() {
@@ -48,9 +47,17 @@ public class TurnSystemUI : MonoBehaviour
          
     }
     
-    //Hide the end turn button when not player's turn.
-    private void UpdateEndTurnButtonVisibility() {
-        endTurnBTN.gameObject.SetActive(TurnSystem.INSTANCE.IsPlayer1Turn());
+    //Hide the end turn button when not player's turn and vice versa.
+    public void ToggleButtonVisibility() {
+        //Debug.Log(PlayerHandler.INSTANCE.IsPlayer1());
+        //Debug.Log(TurnSystem.INSTANCE.IsPlayer1Turn());
+        if(PlayerHandler.INSTANCE.IsPlayer1() == TurnSystem.INSTANCE.IsPlayer1Turn()) {
+            Debug.Log("Turn button shown.");
+            endTurnBTN.gameObject.SetActive(true);
+        } else {
+            Debug.Log("Turn button hidden.");
+            endTurnBTN.gameObject.SetActive(false);
+        }
     }
 
 }
