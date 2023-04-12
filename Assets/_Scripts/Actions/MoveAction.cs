@@ -77,10 +77,13 @@ public class MoveAction : AbstractAction {
 
         TilePosition unitTilePosition = unit.getTilePosition();
 
+        //Loop through all possible x & z values within a given range.
         for(int x = -maxMoveDistance; x <= maxMoveDistance; x++) {
             for(int z = -maxMoveDistance; z <= maxMoveDistance; z++) {
 
+                //Create a tile position using the looped indexes from the range.
                 TilePosition offsetTilePosition = new TilePosition(x, z);
+                //Using the unit position as the center, create a valid til eposition within the assigned range.
                 TilePosition testTilePosition = unitTilePosition + offsetTilePosition;
 
                 //Validate positions. Invalid tile positions are passed.
@@ -100,6 +103,7 @@ public class MoveAction : AbstractAction {
                 
                 //Validate positions within a range of max move distance cost for diagonal movement.
                 if((Mathf.Abs(x + z) <= maxMoveDistance) && (Mathf.Abs(x - z) <= maxMoveDistance)) {
+                    //If all the conditions are met, add the current tile position as a valid position.
                     validMovePositionsList.Add(testTilePosition);
                 }
 

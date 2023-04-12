@@ -74,6 +74,9 @@ public class AttackAction : AbstractAction {
         view.RPC(nameof(SetTarget), RpcTarget.AllBuffered, position.x, position.z);
 
         Debug.Log("Attacking: " + targetedUnit);
+
+        //Play the attack animation.
+        //unit.GetUnitAnimator().PlayAttack();
     }
 
     [PunRPC]
@@ -90,10 +93,13 @@ public class AttackAction : AbstractAction {
 
         TilePosition unitTilePosition = unit.getTilePosition();
 
+        //Loop through all possible x & z values within a given range.
         for(int x = -attackRange; x <= attackRange; x++) {
             for(int z = -attackRange; z <= attackRange; z++) {
 
+                //Create a tile position using the looped indexes from the range.
                 TilePosition offsetTilePosition = new TilePosition(x, z);
+                //Using the unit position as the center, create a valid til eposition within the assigned range.
                 TilePosition testTilePosition = unitTilePosition + offsetTilePosition;
 
                 //Validate positions. Invalid tile positions are passed.
@@ -107,6 +113,7 @@ public class AttackAction : AbstractAction {
                     continue;
                 }
 
+                //Get the unit within the current tile position.
                 UnitHandler targetUnit = GridSystemHandler.INSTANCE.GetAUnitAtTilePosition(testTilePosition);
 
                 //Ignore units of the same team.
@@ -114,7 +121,8 @@ public class AttackAction : AbstractAction {
                     continue;
                 }
 
-                if((Mathf.Abs(x + z) == attackRange) && (Mathf.Abs(x - z) == attackRange)) {
+                if((Mathf.Abs(x + z) == attackRange) || (Mathf.Abs(x - z) == attackRange)) {
+                    //If all the conditions are met, add the current tile position as a valid position.
                     validAttackPositionsList.Add(testTilePosition);
                 }
 
