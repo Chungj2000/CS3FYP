@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbstractMenu : MonoBehaviour {
+public abstract class AbstractMenu : MonoBehaviour {
     
     [SerializeField] private Canvas menuCanvas;
 

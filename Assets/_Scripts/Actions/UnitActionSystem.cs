@@ -119,6 +119,10 @@ public class UnitActionSystem : MonoBehaviour {
                 
                 //Debug.Log("New unit selected.");
                 SetSelectedUnit(unit);
+
+                //Display the selected unit in the UI.
+                DisplayUnitUI();
+                
                 return true;
             }
 
@@ -205,6 +209,14 @@ public class UnitActionSystem : MonoBehaviour {
             }
         }
 
+    }
+
+    private void DisplayUnitUI() {
+        if(PlayerHandler.INSTANCE.IsPlayer1() == selectedUnit.IsOwnedByPlayer1()) {
+            PlayerUnitUI.INSTANCE.SetSelectedUnit(selectedUnit);
+        } else {
+            EnemyUnitUI.INSTANCE.SetSelectedUnit(selectedUnit);
+        }
     }
 
     //Setters for single active action logic.

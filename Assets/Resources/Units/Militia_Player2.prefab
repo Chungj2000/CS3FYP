@@ -37,7 +37,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3586509839732278533, guid: 95122c6a92b1a2a49bde5051928a1ccd, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3586509839732278533, guid: 95122c6a92b1a2a49bde5051928a1ccd, type: 3}
       propertyPath: m_LocalRotation.x
@@ -45,7 +45,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3586509839732278533, guid: 95122c6a92b1a2a49bde5051928a1ccd, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3586509839732278533, guid: 95122c6a92b1a2a49bde5051928a1ccd, type: 3}
       propertyPath: m_LocalRotation.z
@@ -57,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3586509839732278533, guid: 95122c6a92b1a2a49bde5051928a1ccd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 3586509839732278533, guid: 95122c6a92b1a2a49bde5051928a1ccd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -65,7 +65,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7256845609041711528, guid: 95122c6a92b1a2a49bde5051928a1ccd, type: 3}
       propertyPath: m_Name
-      value: LightInfantry_Player2
+      value: Militia_Player2
       objectReference: {fileID: 0}
     - target: {fileID: 7956248170168888506, guid: 95122c6a92b1a2a49bde5051928a1ccd, type: 3}
       propertyPath: m_Materials.Array.data[0]

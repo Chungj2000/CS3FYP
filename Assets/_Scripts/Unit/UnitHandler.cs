@@ -147,6 +147,9 @@ public class UnitHandler : MonoBehaviour {
         
         Debug.Log(transform + " has received damage. Current Unit HP at: " + paramHP);
 
+        //Update the Unit UI health when taking damage.
+        DisplayUnitUI();
+
         CheckIsDead();
 
     }
@@ -157,6 +160,14 @@ public class UnitHandler : MonoBehaviour {
             //Remove the unit reference.
             GridSystemHandler.INSTANCE.RemoveUnitAtTilePosition(tilePosition, this);
             Destroy(gameObject);
+        }
+    }
+
+    private void DisplayUnitUI() {
+        if(PlayerHandler.INSTANCE.IsPlayer1() == this.IsOwnedByPlayer1()) {
+            PlayerUnitUI.INSTANCE.UpdateHealthField();
+        } else {
+            EnemyUnitUI.INSTANCE.UpdateHealthField();
         }
     }
 
