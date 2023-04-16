@@ -34,7 +34,7 @@ public class TurnSystemUI : MonoBehaviour
         TurnSystem.INSTANCE.UpdateTimerText(timerText);
     }
 
-    //Event for Updating Turn Counter upon button click execution.
+    //Event for Updating Turn Counter & button visibility upon button click execution.
     private void TurnSystem_OnEndTurn(object sender, EventArgs e) {
         //Debug.Log("A turn has ended.");
         UpdateTurnCounter();
@@ -59,10 +59,10 @@ public class TurnSystemUI : MonoBehaviour
         //Debug.Log(PlayerHandler.INSTANCE.IsPlayer1());
         //Debug.Log(TurnSystem.INSTANCE.IsPlayer1Turn());
         if(PlayerHandler.INSTANCE.IsPlayer1() == TurnSystem.INSTANCE.IsPlayer1Turn()) {
-            Debug.Log("Turn button shown.");
+            //Debug.Log("Turn button shown.");
             endTurnBTN.gameObject.SetActive(true);
         } else {
-            Debug.Log("Turn button hidden.");
+            //Debug.Log("Turn button hidden.");
             endTurnBTN.gameObject.SetActive(false);
         }
     }

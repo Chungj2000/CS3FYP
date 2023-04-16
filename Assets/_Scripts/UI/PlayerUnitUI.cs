@@ -17,4 +17,12 @@ public class PlayerUnitUI : AbstractUnitUI {
         }
     }
 
+    protected override void SetBackgroundColor() {
+        if(PlayerHandler.INSTANCE.IsPlayer1()) {
+            background.color = player1Color;
+        } else {
+            background.color = player2Color;
+        }
+    }
+
 }

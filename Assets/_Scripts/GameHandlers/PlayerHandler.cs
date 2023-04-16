@@ -21,10 +21,12 @@ public class PlayerHandler : MonoBehaviour {
 
     public void SetAsPlayer1() {
         isPlayer1 = true;
+        Debug.Log("You've been set to Player 1.");
     }
 
     public void SetAsPlayer2() {
         isPlayer1 = false;
+        Debug.Log("You've been set to Player 2.");
     }
 
     public bool IsPlayer1() {

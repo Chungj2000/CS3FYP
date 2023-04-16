@@ -73,6 +73,9 @@ public class WaitingScreenUI : MonoBehaviourPunCallbacks {
         DesignatePlayer();
         turnSystemUI.ToggleButtonVisibility();
         TurnSystem.INSTANCE.TurnOnTimer();
+        PlayerUnitUI.INSTANCE.InitialiseUI();
+        EnemyUnitUI.INSTANCE.InitialiseUI();
+        GoldManager.INSTANCE.GenerateGoldForTurn(!TurnSystem.INSTANCE.IsPlayer1Turn());
         StartGame();
     }
 

@@ -473,6 +473,7 @@ MonoBehaviour:
   paramDEF: 1
   paramMOVE: 4
   paramATK_RANGE: 1
+  paramGOLD_COST: 25
   ownedByPlayer1: 1
   player1Material: {fileID: 2100000, guid: 5070db5067422e041a6bb8c1681020b8, type: 2}
   player2Material: {fileID: 2100000, guid: dc851844264c22f4c81c45df6c05894f, type: 2}

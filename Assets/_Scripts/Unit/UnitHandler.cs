@@ -13,6 +13,7 @@ public class UnitHandler : MonoBehaviour {
     [SerializeField] private int paramDEF = 2;
     [SerializeField] private int paramMOVE = 3;
     [SerializeField] private int paramATK_RANGE = 1;
+    [SerializeField] private int paramGOLD_COST = 15;
 
     [Header("Player Customize Fields")]
     [SerializeField] private bool ownedByPlayer1;
@@ -148,7 +149,7 @@ public class UnitHandler : MonoBehaviour {
         Debug.Log(transform + " has received damage. Current Unit HP at: " + paramHP);
 
         //Update the Unit UI health when taking damage.
-        DisplayUnitUI();
+        UpdateUnitUI();
 
         CheckIsDead();
 
@@ -163,7 +164,7 @@ public class UnitHandler : MonoBehaviour {
         }
     }
 
-    private void DisplayUnitUI() {
+    private void UpdateUnitUI() {
         if(PlayerHandler.INSTANCE.IsPlayer1() == this.IsOwnedByPlayer1()) {
             PlayerUnitUI.INSTANCE.UpdateHealthField();
         } else {
@@ -193,6 +194,10 @@ public class UnitHandler : MonoBehaviour {
 
     public int GetParamATK_RANGE() {
         return paramATK_RANGE;
+    }
+
+    public int GetParamGOLD_COST() {
+        return paramGOLD_COST;
     }
 
     public bool IsOwnedByPlayer1() {

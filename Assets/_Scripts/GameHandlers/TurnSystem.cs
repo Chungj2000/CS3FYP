@@ -13,7 +13,7 @@ public class TurnSystem : MonoBehaviour {
     public event EventHandler OnEndTurn;
     private int turnTracker = 1;
     private bool isPlayer1Turn = true;
-    private const float maxTime = 120;
+    private const float maxTime = 10;
     private float timeLeft;
     private float seconds;
     private bool timerOn = false;
@@ -41,16 +41,21 @@ public class TurnSystem : MonoBehaviour {
 
     //Increment turn count and activate an event.
     public void EndTurnClicked() {
-        view.RPC(nameof(NextTurn), RpcTarget.AllBuffered, null);
+        view.RPC(nameof(NextTurn), RpcTarget.AllBuffered, isPlayer1Turn);
+        PlayerUnitUI.INSTANCE.UpdateTotalGoldField();
+        EnemyUnitUI.INSTANCE.UpdateTotalGoldField();
     }
 
     [PunRPC]
-    private void NextTurn() {
+    private void NextTurn(bool playerTurn) {
         turnTracker++;
         //Debug.Log("Current turn: " + turnTracker);
 
-        isPlayer1Turn = !isPlayer1Turn;
-        //Debug.Log("Currently is the turn of Player 1: " + isPlayer1Turn);
+        isPlayer1Turn = !playerTurn;
+        Debug.Log("Currently is the turn of Player 1: " + isPlayer1Turn);
+
+        //Generate Gold for the Player whose turn is next.
+        GoldManager.INSTANCE.GenerateGoldForTurn(!isPlayer1Turn);
 
         //Reset the timer for the other Player's turn.
         ResetTimer();
