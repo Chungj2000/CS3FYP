@@ -31,7 +31,7 @@ public class GamePauseHandler : MonoBehaviour {
             //Debug.Log("GamePauseHandler instance created.");
         } else {
             Debug.LogError("More than one GamePauseHandler instance created.");
-            Destroy(gameObject);
+            Destroy(this);
             return;
         }
 

@@ -9,6 +9,7 @@ TagManager:
   - Heavy Cavalry
   - Militia
   - Knight
+  - Catapult
   layers:
   - Default
   - TransparentFX

@@ -13,7 +13,7 @@ public class TurnSystem : MonoBehaviour {
     public event EventHandler OnEndTurn;
     private int turnTracker = 1;
     private bool isPlayer1Turn = true;
-    private const float maxTime = 10;
+    private const float maxTime = 120;
     private float timeLeft;
     private float seconds;
     private bool timerOn = false;
@@ -29,7 +29,7 @@ public class TurnSystem : MonoBehaviour {
             //Debug.Log("TurnSystem instance created.");
         } else {
             Debug.Log("More than one TurnSystem instance created.");
-            Destroy(gameObject);
+            Destroy(this);
             return;
         }
     }

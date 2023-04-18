@@ -55,6 +55,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4383855750589585571, guid: dfd954e446b0e514c85b0e272c1fe2fb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4383855750589585573, guid: dfd954e446b0e514c85b0e272c1fe2fb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4383855750589585733, guid: dfd954e446b0e514c85b0e272c1fe2fb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4383855750589585757, guid: dfd954e446b0e514c85b0e272c1fe2fb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4383855750589585759, guid: dfd954e446b0e514c85b0e272c1fe2fb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7256845609041711528, guid: dfd954e446b0e514c85b0e272c1fe2fb, type: 3}
       propertyPath: m_Name
       value: Knight_Player2

@@ -3,17 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class CameraInputHandler : MonoBehaviour
-{
+public class CameraInputHandler : MonoBehaviour {
+
+    public static CameraInputHandler INSTANCE {get; private set;}
     
     [SerializeField] private float moveSpeed = 7.5f;
     [SerializeField] private float zoomSpeed = 2f;
     [SerializeField] private float rotationSpeed = 100f;
     [SerializeField] private CinemachineVirtualCamera vCamera;
+
     private const float MIN_FOV = 25f;
     private const float MAX_FOV = 60f;
     private CinemachineTransposer transposer;
     private InputActions cameraInputActions;
+
+    private void Awake() {
+        if(INSTANCE == null) {
+            INSTANCE = this;
+            //Debug.Log("CameraInputHandler instance created.");
+        } else {
+            Debug.Log("More than one CameraInputHandler instance created.");
+            Destroy(this);
+            return;
+        }
+    }
 
     private void Start() {
         transposer = vCamera.GetCinemachineComponent<CinemachineTransposer>();
@@ -21,11 +34,18 @@ public class CameraInputHandler : MonoBehaviour
         cameraInputActions.Camera.Enable();
     }
 
-
     private void Update() {
         MoveCamera();
         RotateCamera();
         ZoomCamera();
+    }
+
+    //Initiate Camera for Player 2.
+    public void InitiateCamera() {
+        if(!PlayerHandler.INSTANCE.IsPlayer1()) {
+            transform.eulerAngles = new Vector3(transform.rotation.x, 180, transform.rotation.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y, 15);
+        }
     }
 
     private void MoveCamera() {

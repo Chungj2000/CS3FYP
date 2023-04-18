@@ -12,7 +12,7 @@ public class PlayerUnitUI : AbstractUnitUI {
             //Debug.Log("PlayerUnitUI instance created.");
         } else {
             Debug.Log("More than one PlayerUnitUI instance created.");
-            Destroy(gameObject);
+            Destroy(this);
             return;
         }
     }
@@ -22,6 +22,14 @@ public class PlayerUnitUI : AbstractUnitUI {
             background.color = player1Color;
         } else {
             background.color = player2Color;
+        }
+    }
+
+    public override void UpdateTotalGoldField() {
+        if(PlayerHandler.INSTANCE.IsPlayer1()) {
+            playerTOTAL_GOLD_Text.text = GoldManager.INSTANCE.GetPlayer1TotalGold().ToString();
+        } else {
+            playerTOTAL_GOLD_Text.text = GoldManager.INSTANCE.GetPlayer2TotalGold().ToString();
         }
     }
 

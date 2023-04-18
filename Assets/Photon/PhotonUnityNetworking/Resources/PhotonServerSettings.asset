@@ -53,6 +53,9 @@ MonoBehaviour:
   - GenerateGoldForTurn
   - GenerateGoldPlayer1
   - GenerateGoldPlayer2
+  - SetGoldPlayer1
+  - SetGoldPlayer2
+  - SetGold
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

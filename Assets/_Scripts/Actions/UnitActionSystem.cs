@@ -22,7 +22,7 @@ public class UnitActionSystem : MonoBehaviour {
             //Debug.Log("UnitActionSystem instance created.");
         } else {
             Debug.LogError("More than one UnitActionSystem instance created.");
-            Destroy(gameObject);
+            Destroy(this);
             return;
         }
     }

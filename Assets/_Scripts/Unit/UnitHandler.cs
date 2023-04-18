@@ -148,8 +148,11 @@ public class UnitHandler : MonoBehaviour {
         
         Debug.Log(transform + " has received damage. Current Unit HP at: " + paramHP);
 
-        //Update the Unit UI health when taking damage.
-        UpdateUnitUI();
+        //Only update the Unit UI when it is showing otherwise it will cause an error.
+        if(PlayerUnitUI.INSTANCE.IsShowing() && EnemyUnitUI.INSTANCE.IsShowing()) {
+            //Update the Unit UI health when taking damage.
+            UpdateUnitUI();
+        }
 
         CheckIsDead();
 
@@ -157,11 +160,20 @@ public class UnitHandler : MonoBehaviour {
 
     private void CheckIsDead() {
         if(paramHP <= 0) {
-            Debug.Log(transform + " has been killed.");
-            //Remove the unit reference.
-            GridSystemHandler.INSTANCE.RemoveUnitAtTilePosition(tilePosition, this);
-            Destroy(gameObject);
+            KillUnit();
         }
+    }
+
+    //Remove all unit references and destroy the object.
+    private void KillUnit() {
+        Debug.Log(transform + " has been killed.");
+
+        //Remove the unit references.
+        GridSystemHandler.INSTANCE.RemoveUnitAtTilePosition(tilePosition, this);
+        UnitManager.INSTANCE.RemoveUnitFromList(this.gameObject);
+
+        Destroy(gameObject.GetComponent<UnitStateVisual>());
+        Destroy(gameObject);
     }
 
     private void UpdateUnitUI() {

@@ -24,7 +24,7 @@ public class GameOverHandler : MonoBehaviour {
             //Debug.Log("GameOverHandler instance created.");
         } else {
             Debug.LogError("More than one GameOverHandler instance created.");
-            Destroy(gameObject);
+            Destroy(this);
             return;
         }
     }
@@ -49,7 +49,7 @@ public class GameOverHandler : MonoBehaviour {
     private void CheckIsGameStillActive() {
         //If the Player count is less than 2, the other Player has left, therefore declare client as winner.
         if(PhotonNetwork.CurrentRoom.PlayerCount < 2) {
-            Debug.Log("A Player has left.");
+            //Debug.Log("A Player has left.");
             DeclareGameOver(true);
         }
     }
@@ -69,7 +69,7 @@ public class GameOverHandler : MonoBehaviour {
     private void IdentifyGameOverState() {
         //If the game is over, do not allow further game over calls.
         if(gameIsOver) {
-            Debug.Log("Game is over.");
+            //Debug.Log("Game is over.");
             return;
         }
 

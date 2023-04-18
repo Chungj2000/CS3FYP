@@ -14,7 +14,7 @@ public class PlayerHandler : MonoBehaviour {
             //Debug.Log("PlayerHandler instance created.");
         } else {
             Debug.LogError("More than one PlayerHandler instance created.");
-            Destroy(gameObject);
+            Destroy(this);
             return;
         }
     }

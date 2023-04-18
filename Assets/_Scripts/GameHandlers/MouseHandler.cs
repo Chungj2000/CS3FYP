@@ -14,7 +14,7 @@ public class MouseHandler : MonoBehaviour
             //Debug.Log("MouseHandler instance created.");
         } else {
             Debug.LogError("More than one MouseHandler instance created.");
-            Destroy(gameObject);
+            Destroy(this);
             return;
         }
     }

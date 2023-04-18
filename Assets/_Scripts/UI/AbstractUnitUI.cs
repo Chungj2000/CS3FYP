@@ -64,7 +64,7 @@ public abstract class AbstractUnitUI : MonoBehaviour {
         unitATK_RANGE_Text.text = selectedUnit.GetParamATK_RANGE().ToString();
         unitGOLD_COST_Text.text = selectedUnit.GetParamGOLD_COST().ToString();
 
-        playerTOTAL_GOLD_Text.text = GoldManager.INSTANCE.GetTotalGold().ToString();
+        UpdateTotalGoldField();
     }
 
     //For whenever health value changes.
@@ -73,9 +73,7 @@ public abstract class AbstractUnitUI : MonoBehaviour {
     }
 
     //For whenever gold value changes.
-    public void UpdateTotalGoldField() {
-        playerTOTAL_GOLD_Text.text = GoldManager.INSTANCE.GetTotalGold().ToString();
-    }
+    public abstract void UpdateTotalGoldField();
 
     protected void ShowUnitUI() {
         unitUICanvas.enabled = true;
@@ -85,6 +83,10 @@ public abstract class AbstractUnitUI : MonoBehaviour {
     protected void HideUnitUI() {
         unitUICanvas.enabled = false;
         isShowing = false;
+    }
+
+    public bool IsShowing() {
+        return isShowing;
     }
 
 }
