@@ -79,33 +79,45 @@ public class UnitActionSystem : MonoBehaviour {
 
                     //Debug.Log("Unit already selected.");
 
-                    //If selectable targets for attack are found set current action to Attack else default to Move.
-                    if(unit.GetAttackAction().ListValidActionPositions().Count > 0) {
+                    //Determine available action based on whether the unit is a building or not.
+                    if(unit.IsBuilding()) {
 
-                        //Logic for selecting and deselecting the attack action when reclicking the selected unit.
-                        if(currentAction == selectedUnit.GetAttackAction()) {
-                            //If already selected, deselect attack action.
-                            SetCurrentAction(selectedUnit.GetMoveAction());
-                        } else {
-                            //Else select attack action.
-                            SetCurrentAction(selectedUnit.GetAttackAction());
-                        }
+                        //Debug.Log("Unit is a building.");
+
+                        SetCurrentAction(selectedUnit.GetSummonAction());
                         
-                        //Debug.Log("Viable attack targets found. Current Action: " + currentAction);
-
                     } else {
 
-                        SetCurrentAction(selectedUnit.GetMoveAction());
-                        //Debug.Log("Unable to find viable targets. Current Action: " + currentAction);
+                        //Debug.Log("Unit is not a building.");
 
-                    }
+                        //If selectable targets for attack are found set current action to Attack else default to Move.
+                        if(unit.GetAttackAction().ListValidActionPositions().Count > 0) {
 
-                    /**
-                     * Unit Test for listing enemy positions found.
-                    for(int x = 0; x < currentAction.ListValidActionPositions().Count; x++) {
-                        Debug.Log(currentAction.ListValidActionPositions()[x]);
-                    }
-                    **/
+                            //Logic for selecting and deselecting the attack action when reclicking the selected unit.
+                            if(currentAction == selectedUnit.GetAttackAction()) {
+                                //If already selected, deselect attack action.
+                                SetCurrentAction(selectedUnit.GetMoveAction());
+                            } else {
+                                //Else select attack action.
+                                SetCurrentAction(selectedUnit.GetAttackAction());
+                            }
+                            
+                            //Debug.Log("Viable attack targets found. Current Action: " + currentAction);
+
+                        } else {
+
+                            SetCurrentAction(selectedUnit.GetMoveAction());
+                            //Debug.Log("Unable to find viable targets. Current Action: " + currentAction);
+
+                        }
+
+                        /**
+                        * Unit Test for listing enemy positions found.
+                        for(int x = 0; x < currentAction.ListValidActionPositions().Count; x++) {
+                            Debug.Log(currentAction.ListValidActionPositions()[x]);
+                        }
+                        **/
+                        }
 
                     return false;
                     
@@ -136,8 +148,14 @@ public class UnitActionSystem : MonoBehaviour {
         selectedUnit = unit;
         //Debug.Log("Selected unit has been changed.");
 
-        //Default action to move when selecting a new unit.
-        SetCurrentAction(unit.GetMoveAction());
+        
+        if(!unit.IsBuilding()) {
+            //Default action to move when selecting a new unit.
+            SetCurrentAction(unit.GetMoveAction());
+        } else {
+            //Default action to summon for buildings.
+            SetCurrentAction(unit.GetSummonAction());
+        }
 
         OnSelectedUnitStateChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -153,6 +171,26 @@ public class UnitActionSystem : MonoBehaviour {
     private void HandleCurrentAction() {
 
         TilePosition mouseTilePosition = GridSystemHandler.INSTANCE.GetTilePosition(MouseHandler.INSTANCE.GetMousePosition());
+
+        //If the unit is a building allow summon action.
+        if(selectedUnit.IsBuilding()) {
+
+            Debug.Log("Readying summon.");
+
+            if(TurnSystem.INSTANCE.IsPlayer1Turn() == PlayerHandler.INSTANCE.IsPlayer1() &&
+                PlayerHandler.INSTANCE.IsPlayer1() == selectedUnit.IsOwnedByPlayer1() &&
+                currentAction == selectedUnit.GetSummonAction()) {
+
+                Debug.Log(currentAction);
+
+                if(selectedUnit.GetSummonAction().IsValidActionTilePosition(mouseTilePosition)) {
+
+                    SetBusy();
+                    selectedUnit.GetSummonAction().PrepareAction(mouseTilePosition, ClearBusy);
+                    Debug.Log("Summon performed.");
+                }
+            }
+        }
 
         //If unit has already performed an attack action, prevent further actions.
         if(selectedUnit.IsAttackActionUsed()) {

@@ -15,6 +15,12 @@ public class UnitHandler : MonoBehaviour {
     [SerializeField] private int paramATK_RANGE = 1;
     [SerializeField] private int paramGOLD_COST = 15;
 
+    [Header("Advanced Combat Parameters")]
+    [SerializeField] private CombatDataType.RangeType rangeType;
+    [SerializeField] private CombatDataType.WeaponType weaponType;
+    [SerializeField] private CombatDataType.ArmourType armourType;
+    [SerializeField] private bool isBuilding = false;
+
     [Header("Player Customize Fields")]
     [SerializeField] private bool ownedByPlayer1;
     [SerializeField] private Material player1Material;
@@ -28,14 +34,23 @@ public class UnitHandler : MonoBehaviour {
     private TilePosition tilePosition;
     private MoveAction moveAction;
     private AttackAction attackAction;
-    private bool moveActionUsed;
-    private bool attackActionUsed;
+    private SummonAction summonAction;
+    private bool moveActionUsed = false;
+    private bool attackActionUsed = false;
 
     public event EventHandler OnDamaged;
 
     private void Awake() {
-        moveAction = GetComponent<MoveAction>();
-        attackAction = GetComponent<AttackAction>();
+
+        if(!isBuilding) {
+            moveAction = GetComponent<MoveAction>();
+            attackAction = GetComponent<AttackAction>();
+        }
+
+        if(isBuilding) {
+            summonAction = GetComponent<SummonAction>();
+        }
+
         skinMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
         unitAnimator = GetComponent<UnitAnimator>();
     }
@@ -56,7 +71,6 @@ public class UnitHandler : MonoBehaviour {
         }
 
         TurnSystem.INSTANCE.OnEndTurn += TurnSystem_OnEndTurn;
-        ResetActionUsed();
     }
 
     private void Update() {
@@ -76,6 +90,10 @@ public class UnitHandler : MonoBehaviour {
 
     public AttackAction GetAttackAction() {
         return attackAction;
+    }
+
+    public SummonAction GetSummonAction() {
+        return summonAction;
     }
 
     public TilePosition getTilePosition() {
@@ -100,7 +118,7 @@ public class UnitHandler : MonoBehaviour {
     }
 
     public void SetAttackActionUsed() {
-        //Debug.Log("Unit has spent their attack and move action.");
+        Debug.Log("Unit has spent their attack and move action.");
         attackActionUsed = true;
 
         //If a unit has attacked, they can no longer move.
@@ -166,7 +184,7 @@ public class UnitHandler : MonoBehaviour {
 
     //Remove all unit references and destroy the object.
     private void KillUnit() {
-        Debug.Log(transform + " has been killed.");
+        //Debug.Log(transform + " has been killed.");
 
         //Remove the unit references.
         GridSystemHandler.INSTANCE.RemoveUnitAtTilePosition(tilePosition, this);
@@ -212,8 +230,24 @@ public class UnitHandler : MonoBehaviour {
         return paramGOLD_COST;
     }
 
+    public CombatDataType.RangeType GetRangeType() {
+        return rangeType;
+    }
+
+    public CombatDataType.WeaponType GetWeaponType() {
+        return weaponType;
+    }
+
+    public CombatDataType.ArmourType GetArmourType() {
+        return armourType;
+    }
+
     public bool IsOwnedByPlayer1() {
         return ownedByPlayer1;
+    }
+
+    public bool IsBuilding() {
+        return isBuilding;
     }
 
     public UnitAnimator GetUnitAnimator() {

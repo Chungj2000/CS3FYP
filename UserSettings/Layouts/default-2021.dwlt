@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Console
   m_RootView: {fileID: 5}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: SceneView
+  m_Name: GameView
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -241,14 +241,14 @@ MonoBehaviour:
     height: 630
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 18}
+  m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 18}
   - {fileID: 16}
   - {fileID: 15}
   - {fileID: 13}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -259,7 +259,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectBrowser
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -268,15 +268,15 @@ MonoBehaviour:
     y: 630
     width: 1427
     height: 317
-  m_MinSize: {x: 231, y: 271}
-  m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 19}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 19}
   - {fileID: 20}
   - {fileID: 14}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -770,23 +770,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 441c0000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 8824edff0058edff8694edffd494edff8cc2edffb6c2edff50c3edff38f3edff2eabefff7cabefff34d9efff5ed9efff00daefff8013f0ffc887f4ff1688f4fff8b2f4ff22b3f4ff64f2f4ff80f3f4ffcef3f4ff4621f5ff7a21f5fff050f5ffdec8f5ffb6caf5ff04cbf5ffe2f5f5ff08f6f5ffd435f6ff2236f6ffda63f6ff0464f6ff9e64f6ff8c91f6fff491f6ffc4cdf6ff12cef6ffcafbf6fff4fbf6ff8efcf6ff962af7ff3221f8ff7e61f8ffba72f8ff0873f8ff80a0f8ffb4a0f8ffa2d0f8ff268bf9ffa848faff9e78fdffec78fdffa4a6fdffcea6fdff6ca7fdfff0d2fdffb40dfeff020efeff523bfeff7c3bfeff1e3cfeffcc66feff3467feffbe26ffffa262fffff062ffff9890ffffc290ffff5e91ffff1ed6ffff86d6ffff12fbfffff4ffffff
+      m_ExpandedIDs: 404ef1ff021ef3ff561ef3ff764cf3ff9c4cf3ff4eb2f3ffa2b2f3ffe2e0f3ff08e1f3ff0e62f4ff5c62f4ff9c90f4ffc290f4ff589bf4ff0ad5f4ffccd6f4ff1ad7f4ff6c05f5ffa405f5ff1011f5ffc24af5ff4a56f5fffc8ff5fff291f5ff4892f5ff8cc0f5ffb6c0f5fff63af7ffec7bf7ffaa7df7fff87df7ff2eacf7ff58acf7fff4acf7fffcdcf7ff3c17f8ffb056f8ff7896f8ff3a98f8ff8898f8ffd0c6f8fffac6f8ff98c7f8ff38f7f8ff004cf9ff264df9ff7c4df9ff5a78f9ff8078f9ffba18faff06c0fefffc3dffff867effffd47effff8aacffffb2acffff58adffff12fbfffff4ffffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: Archer_Player1
-        m_OriginalName: Archer_Player1
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: -705708
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 3}
       m_SearchString: 
@@ -1021,9 +1021,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -5.1662207, y: -11.060619, z: 24.897251}
+    m_Target: {x: 16.746542, y: -15.796186, z: -1.1156483}
     speed: 2
-    m_Value: {x: -5.1662207, y: -11.060619, z: 24.897251}
+    m_Value: {x: 16.746542, y: -15.796186, z: -1.1156483}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1070,13 +1070,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.44645402, y: -0.2093259, z: 0.10826407, w: -0.8632209}
+    m_Target: {x: 0.00021869017, y: -0.9357937, z: 0.35256636, w: 0.000565876}
     speed: 2
-    m_Value: {x: -0.44645184, y: -0.20932487, z: 0.10826354, w: -0.86321664}
+    m_Value: {x: 0.00021868873, y: -0.93578756, z: 0.35256404, w: 0.0005658723}
   m_Size:
-    m_Target: 30.04549
+    m_Target: 19.237865
     speed: 2
-    m_Value: 30.04549
+    m_Value: 19.237865
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1142,33 +1142,33 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/_Scripts/Actions
+    - Assets/Resources
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/_Scripts/Actions
+  - Assets/Resources
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\Unity Github Repositories\CS3FYP
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 28}
-    m_SelectedIDs: fa640000
-    m_LastClickedID: 25850
-    m_ExpandedIDs: 00000000b8640000ba640000bc640000be640000c0640000c2640000c4640000c6640000ca640000cc64000000ca9a3b
+    scrollPos: {x: 0, y: 144}
+    m_SelectedIDs: e8640000
+    m_LastClickedID: 25832
+    m_ExpandedIDs: 00000000de640000e0640000e2640000e4640000e6640000e8640000ea640000ec640000ee640000f064000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Colors
-      m_OriginalName: Colors
+      m_Name: Grid
+      m_OriginalName: Grid
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 25830
+      m_UserData: 25864
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
       m_OriginalEventType: 0
@@ -1185,7 +1185,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000b8640000ba640000bc640000be640000c0640000c2640000c4640000c6640000c8640000ca640000cc640000
+    m_ExpandedIDs: 00000000de640000e0640000e2640000e4640000e6640000e8640000ea640000ec640000ee640000f0640000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

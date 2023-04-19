@@ -10,6 +10,7 @@ TagManager:
   - Militia
   - Knight
   - Catapult
+  - Fortress
   layers:
   - Default
   - TransparentFX

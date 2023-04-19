@@ -89,20 +89,22 @@ public class UnitManager : MonoBehaviour {
             player1Units.Remove(unit);
             Debug.Log("Unit of Player 1 was removed: " + unit);
             CheckNoMorePlayer1Units();
+            CheckFortressDeath(unit);
         } else {
             player2Units.Remove(unit);
             Debug.Log("Unit of Player 2 was removed: " + unit);
             CheckNoMorePlayer2Units();
+            CheckFortressDeath(unit);
         }
     }
 
-    public void AddUnitFromList(GameObject unit) {
+    public void AddUnitToList(GameObject unit) {
         if(unit.GetComponent<UnitHandler>().IsOwnedByPlayer1()) {
             player1Units.Add(unit);
-            Debug.Log("Unit of Player 1 was added: " + unit);
+            //Debug.Log("Unit of Player 1 was added: " + unit);
         } else {
             player2Units.Add(unit);
-            Debug.Log("Unit of Player 2 was added: " + unit);
+            //Debug.Log("Unit of Player 2 was added: " + unit);
         }
     }
 
@@ -145,6 +147,23 @@ public class UnitManager : MonoBehaviour {
 
     }
 
+    //Alternative win condition for destroying enemy fortress.
+    private void CheckFortressDeath(GameObject unit) {
+
+        //Check if it's a Fortress.
+        if(unit.tag == "Fortress") {
+
+            //Identify the owner of the Fortress.
+            if(unit.GetComponent<UnitHandler>().IsOwnedByPlayer1() == PlayerHandler.INSTANCE.IsPlayer1()) {
+                GameOverHandler.INSTANCE.DeclareGameOver(false);
+            } else {
+                GameOverHandler.INSTANCE.DeclareGameOver(true);
+            }
+
+        }
+
+    }
+
     public int CountPlayer1Units() {
         Debug.Log("Player 1 owns this many units: " + player1Units.Count);
         return player1Units.Count;
@@ -153,6 +172,57 @@ public class UnitManager : MonoBehaviour {
     public int CountPlayer2Units() {
         Debug.Log("Player 2 owns this many units: " + player2Units.Count);
         return player2Units.Count;
+    }
+
+
+
+    //Getters for Unit Types.
+    public GameObject GetMilitiaPlayer1() {
+        return militiaPrefab_Player1;
+    }
+
+    public GameObject GetMilitiaPlayer2() {
+        return militiaPrefab_Player2;
+    }
+
+    public GameObject GetArcherPlayer1() {
+        return archerPrefab_Player1;
+    }
+
+    public GameObject GetArcherPlayer2() {
+        return archerPrefab_Player2;
+    }
+
+    public GameObject GetKnightPlayer1() {
+        return knightPrefab_Player1;
+    }
+
+    public GameObject GetKnightPlayer2() {
+        return knightPrefab_Player2;
+    }
+
+    public GameObject GetLightCavalryPlayer1() {
+        return lightCavalryPrefab_Player1;
+    }
+
+    public GameObject GetLightCavalryPlayer2() {
+        return lightCavalryPrefab_Player2;
+    }
+
+    public GameObject GetHeavyCavalryPlayer1() {
+        return heavyCavalryPrefab_Player1;
+    }
+
+    public GameObject GetHeavyCavalryPlayer2() {
+        return heavyCavalryPrefab_Player2;
+    }
+
+    public GameObject GetCatapultPlayer1() {
+        return catapultPrefab_Player1;
+    }
+
+    public GameObject GetCatapultPlayer2() {
+        return catapultPrefab_Player2;
     }
 
 }

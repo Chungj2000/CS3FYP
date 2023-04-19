@@ -121,10 +121,9 @@ public class AttackAction : AbstractAction {
                     continue;
                 }
 
-                if((Mathf.Abs(x + z) == attackRange) || (Mathf.Abs(x - z) == attackRange)) {
-                    //If all the conditions are met, add the current tile position as a valid position.
-                    validAttackPositionsList.Add(testTilePosition);
-                }
+                //Note: Comment No Units in range, and ignore allied units for testing attack range.
+
+                ValidateRangeOfAttack(x, z, validAttackPositionsList, testTilePosition, targetUnit);
 
                 //Debug.Log(testTilePosition);
 
@@ -133,6 +132,38 @@ public class AttackAction : AbstractAction {
 
         return validAttackPositionsList;
 
+    }
+
+    //Determine what type of attack range the unit should have based on RangeType of the Unit.
+    private void ValidateRangeOfAttack(int x, int z, List<TilePosition> validAttackPositionsList, TilePosition testTilePosition, UnitHandler targetUnit) {
+
+        //Debug.Log("Unit is Type: " + unit.GetRangeType());
+
+        if(unit.GetRangeType() == CombatDataType.RangeType.Precise) {
+
+            //Debug.Log("Initiating a Precise attack.");
+
+            //Attack a target within the perimeter of the ATK_RANGE. For melee, and circle ranged units.
+
+            if((Mathf.Abs(x + z) == attackRange) || (Mathf.Abs(x - z) == attackRange)) {
+                //If all the conditions are met, add the current tile position as a valid position.
+                validAttackPositionsList.Add(testTilePosition);
+            }
+
+        } else if (unit.GetRangeType() == CombatDataType.RangeType.Area) {
+
+            //Debug.Log("Initiating an Area attack.");
+            
+            //Attack a target within an area between 2 (out of melee) and the ATK_RANGE of the unit.
+
+            if(((Mathf.Abs(x + z) <= attackRange) && 
+                (Mathf.Abs(x - z) <= attackRange) &&
+                (Mathf.Abs(x + z) > 1 || Mathf.Abs(x - z) > 1))) {
+                //If all the conditions are met, add the current tile position as a valid position.
+                validAttackPositionsList.Add(testTilePosition);
+            }
+
+        }
     }
 
     [PunRPC]
