@@ -9,9 +9,9 @@ public class GoldManager : MonoBehaviour {
 
     private PhotonView view;
     
-    private const int defaultGoldIncome = 50;
-    private int player1TotalGold = 10;
-    private int player2TotalGold = 550;
+    private const int defaultGoldIncome = 25;
+    private int player1TotalGold = 0;
+    private int player2TotalGold = 0;
 
     private void  Awake() {
 
@@ -27,10 +27,10 @@ public class GoldManager : MonoBehaviour {
         }
     }
 
-    public void GenerateGoldForTurn(bool isPlayer1Turn) {
+    public void GenerateGoldForTurn() {
 
         //Check whether it's currently the turn of Player 1 or 2.
-        if(isPlayer1Turn == PlayerHandler.INSTANCE.IsPlayer1()) {
+        if(PlayerHandler.INSTANCE.IsPlayer1()) {
             Debug.Log("Generating Gold for Player 2.");
             GenerateGoldPlayer2(defaultGoldIncome);
         } else {
@@ -53,13 +53,14 @@ public class GoldManager : MonoBehaviour {
         player2TotalGold += goldAmount;
         Debug.Log("Player gold = " + player2TotalGold);
         view.RPC(nameof(SetGoldPlayer2), RpcTarget.AllBuffered, player2TotalGold);
+        
     }
 
     //Reduce total gold by a given amount for the current Player.
-    public void SpendGoldForPlayer(bool isPlayer1Turn, int goldSpent) {
+    public void SpendGoldForPlayer(bool isPlayer1, int goldSpent) {
 
         //Check whether transaction is for Player 1 or 2.
-        if(isPlayer1Turn == PlayerHandler.INSTANCE.IsPlayer1()) {
+        if(isPlayer1) {
             Debug.Log("Deducting Gold for Player 1.");
             SpendGoldPlayer1(goldSpent);
         } else {
@@ -67,18 +68,18 @@ public class GoldManager : MonoBehaviour {
             SpendGoldPlayer2(goldSpent);
         }
 
-        UpdateUnitUI();
-
     }
 
     private void SpendGoldPlayer1(int goldAmount) {
         player1TotalGold -= goldAmount;
         Debug.Log("Player gold = " + player1TotalGold);
+        view.RPC(nameof(SetGoldPlayer1), RpcTarget.AllBuffered, player1TotalGold);
     }
 
     private void SpendGoldPlayer2(int goldAmount) {
         player2TotalGold -= goldAmount;
         Debug.Log("Player gold = " + player2TotalGold);
+        view.RPC(nameof(SetGoldPlayer2), RpcTarget.AllBuffered, player2TotalGold);
     }
 
     private void UpdateUnitUI() {
@@ -97,18 +98,16 @@ public class GoldManager : MonoBehaviour {
 
     [PunRPC]
     private void SetGoldPlayer1(int amount) {
-        if(PlayerHandler.INSTANCE.IsPlayer1()) {
-            player1TotalGold = amount;
-            Debug.Log("Player 1 now has: " + player1TotalGold);
-        }
+        player1TotalGold = amount;
+        Debug.Log("Player 1 now has: " + player1TotalGold);
+        UpdateUnitUI();
     }
 
     [PunRPC]
     private void SetGoldPlayer2(int amount) {
-        if(!PlayerHandler.INSTANCE.IsPlayer1()) {
-            player2TotalGold = amount;
-            Debug.Log("Player 2 now has: " + player2TotalGold);
-        }
+        player2TotalGold = amount;
+        Debug.Log("Player 2 now has: " + player2TotalGold);
+        UpdateUnitUI();
     }
 
 }

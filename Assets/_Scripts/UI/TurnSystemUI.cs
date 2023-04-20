@@ -5,8 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class TurnSystemUI : MonoBehaviour
-{
+public class TurnSystemUI : MonoBehaviour {
     
     [SerializeField] private Button endTurnBTN;
     [SerializeField] private TextMeshProUGUI turnCounterText;

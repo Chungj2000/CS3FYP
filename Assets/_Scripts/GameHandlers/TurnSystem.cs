@@ -55,7 +55,7 @@ public class TurnSystem : MonoBehaviour {
         Debug.Log("Currently is the turn of Player 1: " + isPlayer1Turn);
 
         //Generate Gold for the Player whose turn is next.
-        GoldManager.INSTANCE.GenerateGoldForTurn(!isPlayer1Turn);
+        GoldManager.INSTANCE.GenerateGoldForTurn();
 
         //Reset the timer for the other Player's turn.
         ResetTimer();

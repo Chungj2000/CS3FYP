@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PlayMenuHandler : AbstractMenu {
+public class PlayMenuUI : AbstractMainMenu {
 
-    private MainMenuHandler mainMenu;
+    private MainMenuUI mainMenu;
     private CreateSessionHandler sessionHandler;
 
     private const string play = "GameScene";
@@ -19,7 +19,7 @@ public class PlayMenuHandler : AbstractMenu {
     }
 
     private void Start() {
-        mainMenu = GetComponent<MainMenuHandler>();
+        mainMenu = GetComponent<MainMenuUI>();
         sessionHandler = GetComponent<CreateSessionHandler>();
     }
 

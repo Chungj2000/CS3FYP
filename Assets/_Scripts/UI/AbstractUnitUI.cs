@@ -41,10 +41,10 @@ public abstract class AbstractUnitUI : MonoBehaviour {
 
     public void SetSelectedUnit(UnitHandler unit) {
         selectedUnit = unit;
-        Debug.Log("Selected unit set.");
+        //Debug.Log("Selected unit set.");
 
         UpdateCanvasFields();
-        Debug.Log("Fields updated.");
+        //Debug.Log("Fields updated.");
 
         //Show the UI if it's concealed.
         if(!isShowing) {

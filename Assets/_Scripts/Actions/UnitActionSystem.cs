@@ -85,6 +85,8 @@ public class UnitActionSystem : MonoBehaviour {
                         //Debug.Log("Unit is a building.");
 
                         SetCurrentAction(selectedUnit.GetSummonAction());
+
+                        DisplayUnitShopUI();
                         
                     } else {
 
@@ -148,13 +150,16 @@ public class UnitActionSystem : MonoBehaviour {
         selectedUnit = unit;
         //Debug.Log("Selected unit has been changed.");
 
-        
+        //Identify what default action to set the Unit to have based on if it's a building or not.
         if(!unit.IsBuilding()) {
             //Default action to move when selecting a new unit.
             SetCurrentAction(unit.GetMoveAction());
+
         } else {
             //Default action to summon for buildings.
             SetCurrentAction(unit.GetSummonAction());
+
+            DisplayUnitShopUI();
         }
 
         OnSelectedUnitStateChanged?.Invoke(this, EventArgs.Empty);
@@ -249,11 +254,19 @@ public class UnitActionSystem : MonoBehaviour {
 
     }
 
+    //Display the UnitUI for specified Player relationship.
     private void DisplayUnitUI() {
         if(PlayerHandler.INSTANCE.IsPlayer1() == selectedUnit.IsOwnedByPlayer1()) {
             PlayerUnitUI.INSTANCE.SetSelectedUnit(selectedUnit);
         } else {
             EnemyUnitUI.INSTANCE.SetSelectedUnit(selectedUnit);
+        }
+    }
+
+    //Display the UnitShopUI if it is your unit.
+    private void DisplayUnitShopUI() {
+        if(selectedUnit.IsOwnedByPlayer1() == PlayerHandler.INSTANCE.IsPlayer1()) {
+            UnitShopUI.INSTANCE.Show();
         }
     }
 

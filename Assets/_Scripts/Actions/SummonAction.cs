@@ -10,9 +10,12 @@ public class SummonAction : AbstractAction {
     private Action onAttackComplete; // = 10;
 
     private string summoningUnit;
+    private GameObject summoningUnitPrefab;
     private GameObject summonedUnit;
     private Vector3 summonPosition;
     private Quaternion summonedRotationAngle;
+    private int summonCost, playerGold;
+
     private int unitCount;
 
     private bool readyToSummon;
@@ -42,14 +45,26 @@ public class SummonAction : AbstractAction {
 
             InitialiseSummon();
 
-            //Create the Unit for both clients, other client will be missing the reference.
-            summonedUnit = PhotonNetwork.Instantiate(summoningUnit, summonPosition, summonedRotationAngle, 0);
-            //Debug.Log("Unit summoned.");
-            int summonedUnitId = summonedUnit.GetComponent<PhotonView>().ViewID;
-            //ViewID needed for referencing.
+            //Check if the Player has enough gold to summon the unit.
+            if(playerGold - summonCost >= 0) {
 
-            //Update summon for both clients.
-            view.RPC(nameof(RPC_SummonAction), RpcTarget.AllBuffered, summonedUnitId, PlayerHandler.INSTANCE.IsPlayer1());
+                Debug.Log("Player has enough gold to summon " + summoningUnit + ".");
+
+                GoldManager.INSTANCE.SpendGoldForPlayer(PlayerHandler.INSTANCE.IsPlayer1(), summonCost);
+
+                //Create the Unit for both clients, other client will be missing the reference.
+                summonedUnit = PhotonNetwork.Instantiate(summoningUnit, summonPosition, summonedRotationAngle, 0);
+                //Debug.Log("Unit summoned.");
+                int summonedUnitId = summonedUnit.GetComponent<PhotonView>().ViewID;
+                //ViewID needed for referencing.
+
+                //Update summon for both clients.
+                view.RPC(nameof(RPC_SummonAction), RpcTarget.AllBuffered, summonedUnitId, PlayerHandler.INSTANCE.IsPlayer1());
+
+            } else {
+                Debug.Log("Insufficient gold to summon " + summoningUnit + ".");
+                onActionComplete();
+            }
 
         } 
 
@@ -59,16 +74,20 @@ public class SummonAction : AbstractAction {
 
         Vector3 rotationVector;
 
-        //Check value to validate whether Unit has been successfully added & unit initial rotation.
+        //Initialise values.
         if(PlayerHandler.INSTANCE.IsPlayer1()) {
             unitCount = UnitManager.INSTANCE.CountPlayer1Units();
             rotationVector = new Vector3(0,0,0);
+            playerGold = GoldManager.INSTANCE.GetPlayer1TotalGold();
         } else {
             unitCount = UnitManager.INSTANCE.CountPlayer2Units();
             rotationVector = new Vector3(0,180,0);
+            playerGold = GoldManager.INSTANCE.GetPlayer2TotalGold();
         }
 
         summonedRotationAngle = Quaternion.Euler(rotationVector.x, rotationVector.y, rotationVector.z);
+
+        summonCost = summoningUnitPrefab.GetComponent<UnitHandler>().GetParamGOLD_COST();
 
     }
 
@@ -102,18 +121,15 @@ public class SummonAction : AbstractAction {
 
     public override void PrepareAction(TilePosition position, Action onSummonComplete) {
 
-        Debug.Log("Preparing action.");
+        //Debug.Log("Preparing action.");
 
         //Turn on action Updates.
         isActive = true;
         //Debug.Log("Summon Action active: " + isActive);
 
-        //Test.
-        if(PlayerHandler.INSTANCE.IsPlayer1()) {
-            summoningUnit = "Militia_Player1";
-        } else {
-            summoningUnit = "Militia_Player2";
-        }
+        //Determine what unit is being summoned via selected item in UnitShopUI.
+        summoningUnit = UnitShopUI.INSTANCE.GetSelectedUnitType();
+        summoningUnitPrefab = UnitShopUI.INSTANCE.GetSelectedUnitPrefab();
 
         summonPosition = GridSystemHandler.INSTANCE.GetWorldPosition(position);
 

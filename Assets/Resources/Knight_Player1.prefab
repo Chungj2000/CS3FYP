@@ -477,6 +477,7 @@ MonoBehaviour:
   rangeType: 0
   weaponType: 1
   armourType: 2
+  isBuilding: 0
   ownedByPlayer1: 1
   player1Material: {fileID: 2100000, guid: 5070db5067422e041a6bb8c1681020b8, type: 2}
   player2Material: {fileID: 2100000, guid: dc851844264c22f4c81c45df6c05894f, type: 2}
@@ -601,6 +602,14 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: ac6a1d2acbfd5384fb0b7bb0007a511f, type: 2}
+    - target: {fileID: 1137340246065835003, guid: 1a022ca3e54eae6418cb98811e635fdb, type: 3}
+      propertyPath: m_CullingMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1137340246065835003, guid: 1a022ca3e54eae6418cb98811e635fdb, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a022ca3e54eae6418cb98811e635fdb, type: 3}
 --- !u!4 &4383855750589809903 stripped

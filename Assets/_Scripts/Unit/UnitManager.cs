@@ -10,21 +10,29 @@ public class UnitManager : MonoBehaviour {
 
     public static UnitManager INSTANCE {get; private set;}
 
-    [Header("Unit Pool [Player 1]")]
-    [SerializeField] private GameObject militiaPrefab_Player1;
-    [SerializeField] private GameObject archerPrefab_Player1;
-    [SerializeField] private GameObject knightPrefab_Player1;
-    [SerializeField] private GameObject lightCavalryPrefab_Player1;
-    [SerializeField] private GameObject heavyCavalryPrefab_Player1;
-    [SerializeField] private GameObject catapultPrefab_Player1;
+    [Header("Unit Prefabs")]
+    [SerializeField] private GameObject militiaPrefab;
+    [SerializeField] private GameObject archerPrefab;
+    [SerializeField] private GameObject knightPrefab;
+    [SerializeField] private GameObject lightCavalryPrefab;
+    [SerializeField] private GameObject heavyCavalryPrefab;
+    [SerializeField] private GameObject catapultPrefab;
 
-    [Header("Unit Pool [Player 2]")]
-    [SerializeField] private GameObject militiaPrefab_Player2;
-    [SerializeField] private GameObject archerPrefab_Player2;
-    [SerializeField] private GameObject knightPrefab_Player2;
-    [SerializeField] private GameObject lightCavalryPrefab_Player2;
-    [SerializeField] private GameObject heavyCavalryPrefab_Player2;
-    [SerializeField] private GameObject catapultPrefab_Player2;
+    //Unit Pool [Player 1]
+    private const string militiaPrefab_Player1 = "Militia_Player1";
+    private const string archerPrefab_Player1 = "Archer_Player1";
+    private const string knightPrefab_Player1 = "Knight_Player1";
+    private const string lightCavalryPrefab_Player1 = "LightCavalry_Player1";
+    private const string heavyCavalryPrefab_Player1 = "HeavyCavalry_Player1";
+    private const string catapultPrefab_Player1 = "Catapult_Player1";
+
+    //Unit Pool [Player 2]
+    private const string militiaPrefab_Player2 = "Militia_Player2";
+    private const string archerPrefab_Player2 = "Archer_Player2";
+    private const string knightPrefab_Player2 = "Knight_Player2";
+    private const string lightCavalryPrefab_Player2 = "LightCavalry_Player2";
+    private const string heavyCavalryPrefab_Player2 = "HeavyCavalry_Player2";
+    private const string catapultPrefab_Player2 = "Catapult_Player2";
 
     private List<GameObject> player1Units;
     private List<GameObject> player2Units;
@@ -52,12 +60,12 @@ public class UnitManager : MonoBehaviour {
     //List out all units present on the field.
     private void ListActiveUnits() {
         //Were identifying units by Tag therefore only one set of prefabs is necessary here.
-        FindUnits(militiaPrefab_Player1.tag);
-        FindUnits(archerPrefab_Player1.tag);
-        FindUnits(knightPrefab_Player1.tag);
-        FindUnits(lightCavalryPrefab_Player1.tag);
-        FindUnits(heavyCavalryPrefab_Player1.tag);
-        FindUnits(catapultPrefab_Player1.tag);
+        FindUnits(militiaPrefab.tag);
+        FindUnits(archerPrefab.tag);
+        FindUnits(knightPrefab.tag);
+        FindUnits(lightCavalryPrefab.tag);
+        FindUnits(heavyCavalryPrefab.tag);
+        FindUnits(catapultPrefab.tag);
 
         Debug.Log("All units have been added to a respective list.");
     }
@@ -66,7 +74,7 @@ public class UnitManager : MonoBehaviour {
     private void FindUnits(string tag) {
 
         GameObject[] foundUnits = GameObject.FindGameObjectsWithTag(tag);
-        Debug.Log("Units found: " + foundUnits.Length);
+        Debug.Log(tag + " found: " + foundUnits.Length);
 
         //Determine which Player owns the unit.
         foreach(GameObject unit in foundUnits) {
@@ -174,54 +182,77 @@ public class UnitManager : MonoBehaviour {
         return player2Units.Count;
     }
 
+    //Getters for Unit Prefabs.
+    public GameObject GetMilitiaPrefab() {
+        return militiaPrefab;
+    }
 
+    public GameObject GetArcherPrefab() {
+        return archerPrefab;
+    }
+
+    public GameObject GetLightCavalryPrefab() {
+        return lightCavalryPrefab;
+    }
+
+    public GameObject GetKnightPrefab() {
+        return knightPrefab;
+    }
+
+    public GameObject GetCatapultPrefab() {
+        return catapultPrefab;
+    }
+
+    public GameObject GetHeavyCavalryPrefab() {
+        return heavyCavalryPrefab;
+    }
 
     //Getters for Unit Types.
-    public GameObject GetMilitiaPlayer1() {
+    public string GetMilitiaPlayer1() {
         return militiaPrefab_Player1;
     }
 
-    public GameObject GetMilitiaPlayer2() {
+    public string GetMilitiaPlayer2() {
         return militiaPrefab_Player2;
     }
 
-    public GameObject GetArcherPlayer1() {
+    public string GetArcherPlayer1() {
         return archerPrefab_Player1;
     }
 
-    public GameObject GetArcherPlayer2() {
+    public string GetArcherPlayer2() {
         return archerPrefab_Player2;
     }
 
-    public GameObject GetKnightPlayer1() {
+    public string GetKnightPlayer1() {
         return knightPrefab_Player1;
     }
 
-    public GameObject GetKnightPlayer2() {
+    public string GetKnightPlayer2() {
         return knightPrefab_Player2;
     }
 
-    public GameObject GetLightCavalryPlayer1() {
+    public string GetLightCavalryPlayer1() {
         return lightCavalryPrefab_Player1;
     }
 
-    public GameObject GetLightCavalryPlayer2() {
+    public string GetLightCavalryPlayer2() {
         return lightCavalryPrefab_Player2;
     }
 
-    public GameObject GetHeavyCavalryPlayer1() {
+    public string GetHeavyCavalryPlayer1() {
         return heavyCavalryPrefab_Player1;
     }
 
-    public GameObject GetHeavyCavalryPlayer2() {
+    public string GetHeavyCavalryPlayer2() {
         return heavyCavalryPrefab_Player2;
     }
 
-    public GameObject GetCatapultPlayer1() {
+    public string GetCatapultPlayer1() {
         return catapultPrefab_Player1;
     }
 
-    public GameObject GetCatapultPlayer2() {
+    public string GetCatapultPlayer2() {
         return catapultPrefab_Player2;
     }
 

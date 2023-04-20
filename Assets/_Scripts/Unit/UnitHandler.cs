@@ -118,7 +118,7 @@ public class UnitHandler : MonoBehaviour {
     }
 
     public void SetAttackActionUsed() {
-        Debug.Log("Unit has spent their attack and move action.");
+        //Debug.Log("Unit has spent their attack and move action.");
         attackActionUsed = true;
 
         //If a unit has attacked, they can no longer move.

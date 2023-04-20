@@ -2,18 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainMenuHandler : AbstractMenu {
+public class MainMenuUI : AbstractMainMenu {
     
-    private PlayMenuHandler playMenu;
-    private OptionsMenuHandler optionsMenu;
+    private PlayMenuUI playMenu;
+    private OptionsMenuUI optionsMenu;
 
     private void Awake() {
         ShowMenu();
     }
 
     private void Start() {
-        playMenu = GetComponent<PlayMenuHandler>();
-        optionsMenu = GetComponent<OptionsMenuHandler>();
+        playMenu = GetComponent<PlayMenuUI>();
+        optionsMenu = GetComponent<OptionsMenuUI>();
     }
 
     //Button interactions.
