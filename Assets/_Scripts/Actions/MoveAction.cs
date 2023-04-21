@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+/*
+ * Action Script for handling the movement of Units for valid movement tiles.
+ * Validates positions that a Unit can move to based on their movement parameter.
+ * Subsequenty moves the Unit towards a selected GridTile via TilePosition.
+ */
 public class MoveAction : AbstractAction {
 
     [SerializeField] private float moveSpeed = 4f;

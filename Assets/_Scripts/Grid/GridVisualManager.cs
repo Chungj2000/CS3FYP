@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * A Script which deals with visual components of each GridTile of a Grid.
+ * This keeps track of the GridSystemHandler and displays or hides the visual components of each GridVisual(Single) where context applicable.
+ */
 public class GridVisualManager : MonoBehaviour {
     
     public static GridVisualManager INSTANCE {get; private set;}
@@ -21,6 +25,7 @@ public class GridVisualManager : MonoBehaviour {
         }
     }
 
+    //Initiate the GridVisuals.
     private void Start() {
 
         gridVisualArray = new GridVisualSingle[GridSystemHandler.INSTANCE.GetWidth(), GridSystemHandler.INSTANCE.GetHeight()];
@@ -44,6 +49,7 @@ public class GridVisualManager : MonoBehaviour {
         HoverGridTileVisual();
     }
 
+    //Hide every GridVisual(Single) on the entire Grid.
     public void HideAllGridVisuals() {
 
         for (int x = 0; x < GridSystemHandler.INSTANCE.GetWidth(); x++) {
@@ -56,6 +62,7 @@ public class GridVisualManager : MonoBehaviour {
 
     }
 
+    //Show GridVisuals from a validated list of positions from the Grid via TilePositions.
     public void ShowValidGridVisuals(List<TilePosition> tilePositionList) {
 
         foreach(TilePosition tilePosition in tilePositionList) {

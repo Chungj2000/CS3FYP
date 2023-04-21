@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/*
+ * Script used to handle unit and action selection.
+ * Contains logic for determining what Unit is selected via mouse input.
+ * Additionally handles what actions to take based on selected unit and their available actions.
+ */
 public class UnitActionSystem : MonoBehaviour {
 
     public static UnitActionSystem INSTANCE {get; private set;}
@@ -44,6 +49,11 @@ public class UnitActionSystem : MonoBehaviour {
             return;
         }
 
+        //Prevent action game is over.
+        if(GameOverHandler.INSTANCE.CheckGameIsOver()) {
+            return;
+        }
+
         /**
          * Prevent Player 1 from interacting with units on Player 2 turn.
          *
@@ -64,7 +74,9 @@ public class UnitActionSystem : MonoBehaviour {
 
     }
 
+    //Determine what Unit has been selected, and handle relevant logic e.g. UIs.
     private bool TryHandleUnitSelection() {
+
         Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if(Physics.Raycast(mouseRay, out RaycastHit raycastHit, float.MaxValue, unitLayerMask)) {
@@ -145,6 +157,7 @@ public class UnitActionSystem : MonoBehaviour {
         return false;
     }
 
+    //Keep track of what Unit is selected for action logic.
     private void SetSelectedUnit(UnitHandler unit) {
 
         selectedUnit = unit;
@@ -165,14 +178,7 @@ public class UnitActionSystem : MonoBehaviour {
         OnSelectedUnitStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public void SetCurrentAction(AbstractAction action) {
-        currentAction = action;
-    }
-
-    public AbstractAction GetCurrentAction() {
-        return currentAction;
-    }
-
+    //Identify what action to take based on the currently selected Unit, and their available actions.
     private void HandleCurrentAction() {
 
         TilePosition mouseTilePosition = GridSystemHandler.INSTANCE.GetTilePosition(MouseHandler.INSTANCE.GetMousePosition());
@@ -270,6 +276,20 @@ public class UnitActionSystem : MonoBehaviour {
         }
     }
 
+    //Getters & Setters.
+    public AbstractAction GetCurrentAction() {
+        return currentAction;
+    }
+
+    public UnitHandler GetSelectedUnit() {
+        return selectedUnit;
+    }
+
+    public void SetCurrentAction(AbstractAction action) {
+        currentAction = action;
+    }
+
+
     //Setters for single active action logic.
     private void SetBusy() {
         isBusy = true;
@@ -279,10 +299,6 @@ public class UnitActionSystem : MonoBehaviour {
     private void ClearBusy() {
         isBusy = false;
         //Debug.Log("Action is now available.");
-    }
-
-    public UnitHandler GetSelectedUnit() {
-        return selectedUnit;
     }
 
 }

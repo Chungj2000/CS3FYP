@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ *A Script that keeps track of which Player the client is that can be accessed at any given point.
+ */
 public class PlayerHandler : MonoBehaviour {
 
     public static PlayerHandler INSTANCE {get; private set;}
@@ -19,6 +22,7 @@ public class PlayerHandler : MonoBehaviour {
         }
     }
 
+    //Setters and getters.
     public void SetAsPlayer1() {
         isPlayer1 = true;
         Debug.Log("You've been set to Player 1.");

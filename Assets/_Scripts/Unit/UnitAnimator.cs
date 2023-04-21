@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Script for handling logic of animations a Unit has.
+ * Currently not used due to bugs it raises.
+ */
 public class UnitAnimator : MonoBehaviour {
     
     private Animator animator;

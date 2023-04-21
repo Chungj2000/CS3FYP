@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+/*
+ * Testing Script for displaying each GridTile using text components.
+ */
 public class GridDebugPrefab : MonoBehaviour
 {
     

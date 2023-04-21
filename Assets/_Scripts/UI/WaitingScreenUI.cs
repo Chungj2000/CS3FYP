@@ -4,6 +4,10 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
+/*
+ * Script which displays the WaitingScreen until 2 players are in the session.
+ * Also handles basic logic for assigning Players and initialising the game.
+ */
 public class WaitingScreenUI : MonoBehaviourPunCallbacks {
     
     [SerializeField] private Canvas waitingScreen;
@@ -40,14 +44,6 @@ public class WaitingScreenUI : MonoBehaviourPunCallbacks {
         }
     }
 
-    private void ShowScreen() {
-        waitingScreen.enabled = true;
-    }
-
-    private void HideScreen() {
-        waitingScreen.enabled = false;
-    }
-
     private void StartGame() {
         //Tell the GameOverHandler to start running Update.
         GameOverHandler.INSTANCE.SetGameIsActive();
@@ -81,8 +77,18 @@ public class WaitingScreenUI : MonoBehaviourPunCallbacks {
         StartGame();
     }
 
+    //Testing function for identifying when a Player joins the session.
     public override void OnPlayerEnteredRoom(Player newPlayer) {
         Debug.Log("Player " + newPlayer.ActorNumber + " has joined.");
+    }
+
+    //Visibility functions.
+    private void ShowScreen() {
+        waitingScreen.enabled = true;
+    }
+
+    private void HideScreen() {
+        waitingScreen.enabled = false;
     }
 
 }

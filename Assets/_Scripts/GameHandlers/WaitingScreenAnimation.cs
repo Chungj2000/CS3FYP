@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*
+ * Script that handles the text animations found on the WaitingScreenUI visuals.
+ */
 public class WaitingScreenAnimation : MonoBehaviour {
     
     List<Animator> animationCharacters;

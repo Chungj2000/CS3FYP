@@ -8,6 +8,10 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 
+/*
+ * Script used to generate sessions via Photon Networking.
+ * Allows two players to connect to a 2-player multiplayer room where they can interact with one another via the Game.
+ */
 public class CreateSessionHandler : MonoBehaviourPunCallbacks {
 
     [SerializeField] private TMP_InputField createSessionKey;
@@ -120,6 +124,7 @@ public class CreateSessionHandler : MonoBehaviourPunCallbacks {
         }
     }
 
+    //Getters.
     public TMP_InputField GetCreateSessionKey() {
         return createSessionKey;
     }

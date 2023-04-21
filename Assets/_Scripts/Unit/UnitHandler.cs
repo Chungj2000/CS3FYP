@@ -3,11 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Script representing a Unit that Players can manipulate via interactions with their client.
+ * Contains parameter values that define the Unit. As well as functions that can adjust said parameters.
+ * Additionally contains functions relevant to the lifespan of a Unit, and their actions.
+ */
 public class UnitHandler : MonoBehaviour {
 
     //Default Parameters for Units.
     [Header("Unit Parameters")]
-    [SerializeField] private static int paramMAX_HP = 10;
+    [SerializeField] private static int paramMAX_HP = 100;
     [SerializeField] private int paramHP = paramMAX_HP;
     [SerializeField] private int paramATK = 5;
     [SerializeField] private int paramDEF = 2;
@@ -29,7 +34,7 @@ public class UnitHandler : MonoBehaviour {
     private SkinnedMeshRenderer[] skinMeshRenderers;
     private UnitAnimator unitAnimator;
 
-    private int minimumDamage = 1;
+    private int minimumDamage = 10;
 
     private TilePosition tilePosition;
     private MoveAction moveAction;
@@ -73,6 +78,7 @@ public class UnitHandler : MonoBehaviour {
         TurnSystem.INSTANCE.OnEndTurn += TurnSystem_OnEndTurn;
     }
 
+    //Ensure Unit always knows their TilePosition.
     private void Update() {
 
         TilePosition newtilePosition = GridSystemHandler.INSTANCE.GetTilePosition(transform.position);
@@ -84,47 +90,7 @@ public class UnitHandler : MonoBehaviour {
 
     }
 
-    public MoveAction GetMoveAction() {
-        return moveAction;
-    }
-
-    public AttackAction GetAttackAction() {
-        return attackAction;
-    }
-
-    public SummonAction GetSummonAction() {
-        return summonAction;
-    }
-
-    public TilePosition getTilePosition() {
-        return tilePosition;
-    }
-
-    public Vector3 GetWorldPosition() {
-        return transform.position;
-    }
-
-    public bool IsMoveActionUsed() {
-        return moveActionUsed;
-    }
-
-    public void SetMoveActionUsed() {
-        //Debug.Log("Unit has spent their move action.");
-        moveActionUsed = true;
-    }
-
-    public bool IsAttackActionUsed() {
-        return attackActionUsed;
-    }
-
-    public void SetAttackActionUsed() {
-        //Debug.Log("Unit has spent their attack and move action.");
-        attackActionUsed = true;
-
-        //If a unit has attacked, they can no longer move.
-        moveActionUsed = true;
-    }
-
+    //Refresh actions available to the Unit upon new turn.
     public void ResetActionUsed() {
 
         if(IsOwnedByPlayer1() != TurnSystem.INSTANCE.IsPlayer1Turn()) {
@@ -151,34 +117,46 @@ public class UnitHandler : MonoBehaviour {
         ResetActionUsed();
     }
 
-    public void TakeDamage(int damageValue) {
+    //Manipulate HP of the Unit.
+    public void TakeDamage() {
 
-        if(damageValue - paramDEF <= 0) {
-            //If enemy defence is greater than attack value, default the damage received to 1.
+        //Set defender for damage calculations.
+        CombatDataHandler.INSTANCE.SetDefendingUnit(this);
+
+        int damageValue = CombatDataHandler.INSTANCE.CombatDataCalculateDamage();
+
+        //If damageValue less than or equal to 0, default the damage received to 10.
+        if(damageValue <= minimumDamage) {
             paramHP -= minimumDamage;
             Debug.Log(transform + " has received minimum damage.");
         } else {
-            paramHP -= Mathf.Abs(damageValue - paramDEF);
-            Debug.Log(transform + " has received " + (paramDEF - damageValue) + " damage.");
+            paramHP -= Mathf.Abs(damageValue);
+            Debug.Log(transform + " has received " + damageValue+ " damage.");
         }
 
         OnDamaged?.Invoke(this, EventArgs.Empty);
         
         Debug.Log(transform + " has received damage. Current Unit HP at: " + paramHP);
 
-        //Only update the Unit UI when it is showing otherwise it will cause an error.
-        if(PlayerUnitUI.INSTANCE.IsShowing() && EnemyUnitUI.INSTANCE.IsShowing()) {
-            //Update the Unit UI health when taking damage.
-            UpdateUnitUI();
-        }
-
         CheckIsDead();
 
     }
 
+    //Determine whether damage taken has 'killed' the Unit.
     private void CheckIsDead() {
         if(paramHP <= 0) {
+
+            ToggleUnitUI();
             KillUnit();
+
+        }  else {
+
+            //Only update the Unit UI when it is showing otherwise it will cause an error.
+            if(PlayerUnitUI.INSTANCE.IsShowing() && EnemyUnitUI.INSTANCE.IsShowing()) {
+                //Update the Unit UI health when taking damage.
+                UpdateUnitUI();
+            }
+
         }
     }
 
@@ -194,12 +172,69 @@ public class UnitHandler : MonoBehaviour {
         Destroy(gameObject);
     }
 
+    //Hide the UnitUI if one of the displayed units in either EnemyUnitUI or PlayerUnitUI are killed.
+    private void ToggleUnitUI() {
+        if(this == PlayerUnitUI.INSTANCE.GetSelectedUnit()) {
+
+            //Debug.Log("Killed unit is in PlayerUnitUI, clearing UI.");
+            PlayerUnitUI.INSTANCE.ConcealUnitUI();
+
+        } else if (this == EnemyUnitUI.INSTANCE.GetSelectedUnit()) {
+
+            //Debug.Log("Killed unit is in EnemyUnitUI, clearing UI.");
+            EnemyUnitUI.INSTANCE.ConcealUnitUI();
+
+        }
+    }
+
     private void UpdateUnitUI() {
         if(PlayerHandler.INSTANCE.IsPlayer1() == this.IsOwnedByPlayer1()) {
             PlayerUnitUI.INSTANCE.UpdateHealthField();
         } else {
             EnemyUnitUI.INSTANCE.UpdateHealthField();
         }
+    }
+
+    //Getters & Setters.
+    public bool IsMoveActionUsed() {
+        return moveActionUsed;
+    }
+
+    public void SetMoveActionUsed() {
+        //Debug.Log("Unit has spent their move action.");
+        moveActionUsed = true;
+    }
+
+    public bool IsAttackActionUsed() {
+        return attackActionUsed;
+    }
+
+    public void SetAttackActionUsed() {
+        //Debug.Log("Unit has spent their attack and move action.");
+        attackActionUsed = true;
+
+        //If a unit has attacked, they can no longer move.
+        moveActionUsed = true;
+    }
+
+    public MoveAction GetMoveAction() {
+        return moveAction;
+    }
+
+    public AttackAction GetAttackAction() {
+        return attackAction;
+    }
+
+    public SummonAction GetSummonAction() {
+        return summonAction;
+    }
+
+    public TilePosition getTilePosition() {
+        return tilePosition;
+    }
+
+    public Vector3 GetWorldPosition() {
+        return transform.position;
     }
 
     public int GetParamHP() {
@@ -238,8 +273,16 @@ public class UnitHandler : MonoBehaviour {
         return weaponType;
     }
 
+    public string GetWeaponTypeToString() {
+        return TypeConverter.INSTANCE.WeaponTypeToString(weaponType);
+    }
+
     public CombatDataType.ArmourType GetArmourType() {
         return armourType;
+    }
+
+    public string GetArmourTypeToString() {
+        return TypeConverter.INSTANCE.ArmourTypeToString(armourType);
     }
 
     public bool IsOwnedByPlayer1() {

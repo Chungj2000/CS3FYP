@@ -468,9 +468,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f496f33d72f1fdd4688143ddc5b27a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paramHP: 10
-  paramATK: 4
-  paramDEF: 1
+  paramHP: 100
+  paramATK: 40
+  paramDEF: 10
   paramMOVE: 4
   paramATK_RANGE: 1
   paramGOLD_COST: 25

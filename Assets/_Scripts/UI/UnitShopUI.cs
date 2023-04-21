@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ * Script handles all logic related to the UnitShopUI.
+ * Allows Players to interact with visual components, which will respond based on the context.
+ * Players will be able to select Units they want to purchase from their Fortress through this.
+ */
 public class UnitShopUI : MonoBehaviour {
 
     public static UnitShopUI INSTANCE {get; private set;}
@@ -45,6 +50,7 @@ public class UnitShopUI : MonoBehaviour {
         ToggleButtonColor(militiaSelection_Btn);
     }
 
+    //Button functions.
     public void CloseClicked() {
         //Debug.Log("Close clicked.");
         Hide();
@@ -104,7 +110,72 @@ public class UnitShopUI : MonoBehaviour {
         //Debug.Log("Selected set as: " + selectedUnitType);
     }
 
-    //Identify which Player the Unit is for.
+    //Change the button color to red when clicked on, and the rest to white.
+    private void ToggleButtonColor(Button selectedButton) {
+        militiaSelection_Btn.GetComponent<Image>().color = defaultButtonColor;
+        archerSelection_Btn.GetComponent<Image>().color = defaultButtonColor;
+        lightCavalrySelection_Btn.GetComponent<Image>().color = defaultButtonColor;
+        knightSelection_Btn.GetComponent<Image>().color = defaultButtonColor;
+        catapultSelection_Btn.GetComponent<Image>().color = defaultButtonColor;
+        heavyCavalrySelection_Btn.GetComponent<Image>().color = defaultButtonColor;
+
+        selectedButton.GetComponent<Image>().color = selectedButtonColor;
+    }
+
+    //Display the Unit parameters of a hovered over Unit in the UI.
+    public void OnHoverOverSelectionButton(Button hoveredButton) {
+        if(hoveredButton == militiaSelection_Btn) {
+
+            //Debug.Log("Militia Selection button hovered over.");
+            PlayerUnitUI.INSTANCE.SetSelectedUnit(UnitManager.INSTANCE.GetMilitiaPrefab().GetComponent<UnitHandler>());
+
+        } else if (hoveredButton == archerSelection_Btn) {
+
+            //Debug.Log("Archer Selection button hovered over.");
+            PlayerUnitUI.INSTANCE.SetSelectedUnit(UnitManager.INSTANCE.GetArcherPrefab().GetComponent<UnitHandler>());
+
+        } else if (hoveredButton == lightCavalrySelection_Btn) {
+
+            //Debug.Log("Light Cavalry Selection button hovered over.");
+            PlayerUnitUI.INSTANCE.SetSelectedUnit(UnitManager.INSTANCE.GetLightCavalryPrefab().GetComponent<UnitHandler>());
+
+        } else if (hoveredButton == knightSelection_Btn) {
+
+            //Debug.Log("Knight Selection button hovered over.");
+            PlayerUnitUI.INSTANCE.SetSelectedUnit(UnitManager.INSTANCE.GetKnightPrefab().GetComponent<UnitHandler>());
+
+        } else if (hoveredButton == catapultSelection_Btn) {
+
+            //Debug.Log("Catapult Selection button hovered over.");
+            PlayerUnitUI.INSTANCE.SetSelectedUnit(UnitManager.INSTANCE.GetCatapultPrefab().GetComponent<UnitHandler>());
+
+        } else if (hoveredButton == heavyCavalrySelection_Btn) {
+
+            //Debug.Log("Heavy Cavalry Selection button hovered over.");
+            PlayerUnitUI.INSTANCE.SetSelectedUnit(UnitManager.INSTANCE.GetHeavyCavalryPrefab().GetComponent<UnitHandler>());
+
+        }
+    }
+
+    //Visibility functions.
+    public void Show() {
+        unitShopCanvas.enabled = true;
+    }
+
+    public void Hide() {
+        unitShopCanvas.enabled = false;
+    }
+
+    //Getters.
+    public string GetSelectedUnitType() {
+        return selectedUnitType;
+    }
+
+    public GameObject GetSelectedUnitPrefab() {
+        return selectedUnitPrefab;
+    }
+
+    //Identify which Player the Unit is for. Aka Setters.
     private void SetSelected_Militia() {
         //Debug.Log("Militia selected.");
         if(PlayerHandler.INSTANCE.IsPlayer1()) {
@@ -169,69 +240,6 @@ public class UnitShopUI : MonoBehaviour {
         }
 
         selectedUnitPrefab = UnitManager.INSTANCE.GetHeavyCavalryPrefab();
-    }
-
-    //Change the button color to red when clicked on, and the rest to white.
-    private void ToggleButtonColor(Button selectedButton) {
-        militiaSelection_Btn.GetComponent<Image>().color = defaultButtonColor;
-        archerSelection_Btn.GetComponent<Image>().color = defaultButtonColor;
-        lightCavalrySelection_Btn.GetComponent<Image>().color = defaultButtonColor;
-        knightSelection_Btn.GetComponent<Image>().color = defaultButtonColor;
-        catapultSelection_Btn.GetComponent<Image>().color = defaultButtonColor;
-        heavyCavalrySelection_Btn.GetComponent<Image>().color = defaultButtonColor;
-
-        selectedButton.GetComponent<Image>().color = selectedButtonColor;
-    }
-
-    //Display the Unit parameters of a hovered over Unit in the UI.
-    public void OnHoverOverSelectionButton(Button hoveredButton) {
-        if(hoveredButton == militiaSelection_Btn) {
-
-            //Debug.Log("Militia Selection button hovered over.");
-            PlayerUnitUI.INSTANCE.SetSelectedUnit(UnitManager.INSTANCE.GetMilitiaPrefab().GetComponent<UnitHandler>());
-
-        } else if (hoveredButton == archerSelection_Btn) {
-
-            //Debug.Log("Archer Selection button hovered over.");
-            PlayerUnitUI.INSTANCE.SetSelectedUnit(UnitManager.INSTANCE.GetArcherPrefab().GetComponent<UnitHandler>());
-
-        } else if (hoveredButton == lightCavalrySelection_Btn) {
-
-            //Debug.Log("Light Cavalry Selection button hovered over.");
-            PlayerUnitUI.INSTANCE.SetSelectedUnit(UnitManager.INSTANCE.GetLightCavalryPrefab().GetComponent<UnitHandler>());
-
-        } else if (hoveredButton == knightSelection_Btn) {
-
-            //Debug.Log("Knight Selection button hovered over.");
-            PlayerUnitUI.INSTANCE.SetSelectedUnit(UnitManager.INSTANCE.GetKnightPrefab().GetComponent<UnitHandler>());
-
-        } else if (hoveredButton == catapultSelection_Btn) {
-
-            //Debug.Log("Catapult Selection button hovered over.");
-            PlayerUnitUI.INSTANCE.SetSelectedUnit(UnitManager.INSTANCE.GetCatapultPrefab().GetComponent<UnitHandler>());
-
-        } else if (hoveredButton == heavyCavalrySelection_Btn) {
-
-            //Debug.Log("Heavy Cavalry Selection button hovered over.");
-            PlayerUnitUI.INSTANCE.SetSelectedUnit(UnitManager.INSTANCE.GetHeavyCavalryPrefab().GetComponent<UnitHandler>());
-
-        }
-    }
-
-    public void Show() {
-        unitShopCanvas.enabled = true;
-    }
-
-    public void Hide() {
-        unitShopCanvas.enabled = false;
-    }
-
-    public string GetSelectedUnitType() {
-        return selectedUnitType;
-    }
-
-    public GameObject GetSelectedUnitPrefab() {
-        return selectedUnitPrefab;
     }
 
 }

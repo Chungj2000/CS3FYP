@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Script used for storing tooltip strings which can be attached to visual components.
+ * ToolTipUI uses this to update tooltip strings on text fields.
+ */
 public class ToolTips : MonoBehaviour {
 
     [SerializeField] UnitUI_Tips tip;
@@ -14,6 +18,8 @@ public class ToolTips : MonoBehaviour {
     private const string movementTip =    "The Movement value of a Unit. This determines how many tiles a Unit can traverse.";
     private const string attackRangeTip = "The Attack Range value of a Unit. This determines how far a Unit can attack from.";
     private const string costTip =        "The Cost of a Unit. Summoning a Unit will deduce your total gold by this amount.";
+    private const string weaponTypeTip =  "Determines the effectiveness of an attack by comparing with Armour Type.";
+    private const string armourTypeTip =  "Determines the effectiveness of an attack by comparing with Weapon Type.";
     private const string goldTip =        "The amount of Gold a Player possesses. This is needed to summon more Units.";
     
     public enum UnitUI_Tips {
@@ -24,6 +30,8 @@ public class ToolTips : MonoBehaviour {
         Movement,
         AttackRange,
         Cost,
+        WeaponType,
+        ArmourType,
         Gold
     }
 
@@ -44,7 +52,7 @@ public class ToolTips : MonoBehaviour {
                 return attackTip;
 
             case UnitUI_Tips.Defence:
-                //Debug.Log("Dfence");
+                //Debug.Log("Defence");
                 return defenceTip;
 
             case UnitUI_Tips.Movement:
@@ -59,16 +67,25 @@ public class ToolTips : MonoBehaviour {
                 //Debug.Log("Cost");
                 return costTip;
 
+            case UnitUI_Tips.WeaponType:
+                //Debug.Log("Cost");
+                return weaponTypeTip;
+
+            case UnitUI_Tips.ArmourType:
+                //Debug.Log("Cost");
+                return armourTypeTip;
+
             case UnitUI_Tips.Gold:
                 //Debug.Log("Gold");
                 return goldTip;
             
             default:
-                //Debug.Log("Null");
+                Debug.LogError("No tip found.");
                 return "Error";
         }
     }
 
+    //Getters.
     public UnitUI_Tips GetTip() {
         return tip;
     }

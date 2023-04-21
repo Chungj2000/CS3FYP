@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
+/*
+ * The Script that serves as the controller logic for manipulating the camera position and angles.
+ * Camera is independant for Player clients.
+ */
 public class CameraInputHandler : MonoBehaviour {
 
     public static CameraInputHandler INSTANCE {get; private set;}
@@ -48,6 +52,7 @@ public class CameraInputHandler : MonoBehaviour {
         }
     }
 
+    //WASD input keys for moving the camera.
     private void MoveCamera() {
         Vector2 cameraMoveInput = cameraInputActions.Camera.CameraMoveInputs.ReadValue<Vector2>();
         Vector3 cameraMoveVector = new Vector3(cameraMoveInput.x, 0f, cameraMoveInput.y);
@@ -56,11 +61,13 @@ public class CameraInputHandler : MonoBehaviour {
         transform.position += cameraMoveDirection * moveSpeed * Time.deltaTime;
     }
 
+    //Q & E input keys for pivoting the camera left and right.
     private void RotateCamera() {
         Vector3 cameraRotateVector = new Vector3(0, cameraInputActions.Camera.CameraRotateInputs.ReadValue<float>(), 0);
         transform.eulerAngles += cameraRotateVector * rotationSpeed * Time.deltaTime;
     }
 
+    //Scroll wheel input for panning the FOV up to a defined maximum and minimum value.
     private void ZoomCamera() {
         Vector2 cameraZoomInput = cameraInputActions.Camera.CameraZoomInputs.ReadValue<Vector2>().normalized;
         //Change to + for reverse zoom.

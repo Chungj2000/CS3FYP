@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * The UnitUI for Player owned units that are selected.
+ */
 public class PlayerUnitUI : AbstractUnitUI {
 
     public static PlayerUnitUI INSTANCE {get; private set;}
@@ -17,6 +20,7 @@ public class PlayerUnitUI : AbstractUnitUI {
         }
     }
 
+    //Update the UI color based on Player faction.
     protected override void SetBackgroundColor() {
         if(PlayerHandler.INSTANCE.IsPlayer1()) {
             background.color = player1Color;
@@ -25,6 +29,7 @@ public class PlayerUnitUI : AbstractUnitUI {
         }
     }
 
+    //Ensure text field of gold is correctly updated for client.
     public override void UpdateTotalGoldField() {
         if(PlayerHandler.INSTANCE.IsPlayer1()) {
             playerTOTAL_GOLD_Text.text = GoldManager.INSTANCE.GetPlayer1TotalGold().ToString();

@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * A Script that serves as a data type for instantiating a Grid using a 2D array.
+ * It keeps track of what items are present on the GridTile such as the Unit, and its position (TilePosition).
+ */
 public class GridTile {
     
     private GridSystem gridSystem;
@@ -23,6 +27,7 @@ public class GridTile {
         return tilePosition.ToString() + "\n" + buildUnitString;
     }
 
+    //Data manipulation for Units present on GridTile.
     public void AddUnit(UnitHandler unit) {
         units.Add(unit);
     }
@@ -31,6 +36,7 @@ public class GridTile {
         units.Remove(unit);
     }
 
+    //Getters.
     public List<UnitHandler> GetUnitList() {
         return units;
     }

@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+/*
+ * Action Script for handling combat initiation.
+ * Validates for targets within range of Unit attack range.
+ * Subsequently attacks towards the direction of the targetted unit of the selected GridTile via TilePosition.
+ */
 public class AttackAction : AbstractAction {
 
     [SerializeField] private float rotateSpeed = 15f;
@@ -33,10 +38,14 @@ public class AttackAction : AbstractAction {
             //Update attack action on both clients.
             view.RPC(nameof(RPC_FaceTarget), RpcTarget.AllBuffered, null);
 
+            //Execute the attack.
+            PerformAttack();
+
         }
 
     }
 
+    //Make the Unit face the targetted unit on both clients.
     [PunRPC]
     private void RPC_FaceTarget() {
 
@@ -46,9 +55,6 @@ public class AttackAction : AbstractAction {
         //Face the unit towards target.
         transform.forward = Vector3.Lerp(transform.forward, faceTowards, Time.deltaTime * rotateSpeed);
         //Debug.Log("Facing towards target - " + targetedUnit.GetWorldPosition() + "," + unit.GetWorldPosition());
-
-        //Execute the attack.
-        PerformAttack();
     }
 
     private void PerformAttack() {
@@ -73,12 +79,13 @@ public class AttackAction : AbstractAction {
         //Set targeted unit based on selected unit tile containing an enemy, for both clients.
         view.RPC(nameof(SetTarget), RpcTarget.AllBuffered, position.x, position.z);
 
-        Debug.Log("Attacking: " + targetedUnit);
+        //Debug.Log("Attacking: " + targetedUnit);
 
         //Play the attack animation.
         //unit.GetUnitAnimator().PlayAttack();
     }
 
+    //Ensure both clients know who the targetted unit is for the attack.
     [PunRPC]
     private void SetTarget(int x, int z) {
         //RPCs cannot take custom types so recreate targetted TilePosition using primitives.
@@ -166,11 +173,12 @@ public class AttackAction : AbstractAction {
         }
     }
 
+    //Ensure both clients are updated for the targetted Unit taking damage.
     [PunRPC]
     private void Attack() {
-        //Identify unit's attack parameter and pass it on as the base damage value.
-        attackParameter = unit.GetParamATK();
-        targetedUnit.TakeDamage(attackParameter);
+        //Set the attacker as targetted unit for damage calculations.
+        CombatDataHandler.INSTANCE.SetAttackingUnit(unit);
+        targetedUnit.TakeDamage();
     }
 
 }

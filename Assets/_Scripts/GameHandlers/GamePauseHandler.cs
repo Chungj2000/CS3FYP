@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+/*
+ * Script for visual components of the PauseMenuUI on the GameScene and the logic behind giving up.
+ */
 public class GamePauseHandler : MonoBehaviour {
     
     public static GamePauseHandler INSTANCE {get; private set;}
@@ -48,6 +51,7 @@ public class GamePauseHandler : MonoBehaviour {
         }
     }
 
+    //Visibility functions.
     private void PauseMenuDisplay() {
         pauseMenuCanvas.enabled = isPaused;
     }
@@ -68,6 +72,7 @@ public class GamePauseHandler : MonoBehaviour {
         return isPaused;
     }
 
+    //Button functions.
     public void ResumeClicked() {
         Debug.Log("Resume clicked.");
 

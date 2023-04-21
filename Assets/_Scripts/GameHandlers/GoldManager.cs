@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+/*
+ * Script that handles Gold generation and expenditure logic.
+ * It keeps track of both Player's total gold and ensures both clients are up-to-date in terms of Gold.
+ */
 public class GoldManager : MonoBehaviour {
 
     public static GoldManager INSTANCE {get; private set;}
@@ -27,14 +31,15 @@ public class GoldManager : MonoBehaviour {
         }
     }
 
+    //Generate Gold for both players each turn.
     public void GenerateGoldForTurn() {
 
         //Check whether it's currently the turn of Player 1 or 2.
         if(PlayerHandler.INSTANCE.IsPlayer1()) {
-            Debug.Log("Generating Gold for Player 2.");
+            //Debug.Log("Generating Gold for Player 2.");
             GenerateGoldPlayer2(defaultGoldIncome);
         } else {
-            Debug.Log("Generating Gold for Player 1.");
+            //Debug.Log("Generating Gold for Player 1.");
             GenerateGoldPlayer1(defaultGoldIncome);
         }
 
@@ -45,13 +50,13 @@ public class GoldManager : MonoBehaviour {
     //Increase the gold of the current Player's turn by a given amount.
     private void GenerateGoldPlayer1(int goldAmount) {
         player1TotalGold += goldAmount;
-        Debug.Log("Player gold = " + player1TotalGold);
+        //Debug.Log("Player gold = " + player1TotalGold);
         view.RPC(nameof(SetGoldPlayer1), RpcTarget.AllBuffered, player1TotalGold);
     }
 
     private void GenerateGoldPlayer2(int goldAmount) {
         player2TotalGold += goldAmount;
-        Debug.Log("Player gold = " + player2TotalGold);
+        //Debug.Log("Player gold = " + player2TotalGold);
         view.RPC(nameof(SetGoldPlayer2), RpcTarget.AllBuffered, player2TotalGold);
         
     }
@@ -61,10 +66,10 @@ public class GoldManager : MonoBehaviour {
 
         //Check whether transaction is for Player 1 or 2.
         if(isPlayer1) {
-            Debug.Log("Deducting Gold for Player 1.");
+            //Debug.Log("Deducting Gold for Player 1.");
             SpendGoldPlayer1(goldSpent);
         } else {
-            Debug.Log("Deducting Gold for Player 2.");
+            //Debug.Log("Deducting Gold for Player 2.");
             SpendGoldPlayer2(goldSpent);
         }
 
@@ -96,17 +101,18 @@ public class GoldManager : MonoBehaviour {
         return player2TotalGold;
     }
 
+    //Setters called for both clients.
     [PunRPC]
     private void SetGoldPlayer1(int amount) {
         player1TotalGold = amount;
-        Debug.Log("Player 1 now has: " + player1TotalGold);
+        //Debug.Log("Player 1 now has: " + player1TotalGold);
         UpdateUnitUI();
     }
 
     [PunRPC]
     private void SetGoldPlayer2(int amount) {
         player2TotalGold = amount;
-        Debug.Log("Player 2 now has: " + player2TotalGold);
+        //Debug.Log("Player 2 now has: " + player2TotalGold);
         UpdateUnitUI();
     }
 

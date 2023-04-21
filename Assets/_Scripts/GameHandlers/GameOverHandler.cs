@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 
+/*
+ * Script used to determine whether win conditions have been met, and declaring a winner out of the two Players.
+ * Additionally handles the visual UI components for winning and losing.
+ */
 public class GameOverHandler : MonoBehaviour {
 
     public static GameOverHandler INSTANCE {get; private set;}
@@ -54,7 +58,7 @@ public class GameOverHandler : MonoBehaviour {
         }
     }
 
-    //Announce GameOver state.
+    //Announce GameOver state for both clients.
     [PunRPC]
     public void DeclareGameOver(bool victor) {
         isVictor = victor;
@@ -106,7 +110,7 @@ public class GameOverHandler : MonoBehaviour {
         screen.enabled = true;
     }
 
-    //Button click detection.
+    //Button functions.
     public void MainMenuClicked() {
         Debug.Log("Main Menu clicked.");
         PhotonNetwork.LeaveRoom();
@@ -122,6 +126,11 @@ public class GameOverHandler : MonoBehaviour {
         Debug.Log("Player has left the room.");
 
         Application.Quit();
+    }
+
+    //Getters.
+    public bool CheckGameIsOver() {
+        return gameIsOver;
     }
 
 }

@@ -4,6 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/*
+ * Script for dealing with visual components of the UI and application customisation logic.
+ * Contains functions for dealing with typicial operations found in Settings.
+ * Used in both MainMenu and GameScene.
+ */
 public class OptionsMenuUI : AbstractMainMenu {
 
     [SerializeField] private Toggle fullscreenToggle;
@@ -54,6 +59,7 @@ public class OptionsMenuUI : AbstractMainMenu {
 
     }
 
+    //Button functions.
     public void CloseClicked() {
         Debug.Log("Closing Options pop-up.");
 

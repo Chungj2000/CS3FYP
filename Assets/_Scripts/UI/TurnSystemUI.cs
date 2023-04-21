@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/*
+ * A Script that purely handles the visual components of the TurnSystemUI.
+ */
 public class TurnSystemUI : MonoBehaviour {
     
     [SerializeField] private Button endTurnBTN;
@@ -35,11 +38,18 @@ public class TurnSystemUI : MonoBehaviour {
 
     //Event for Updating Turn Counter & button visibility upon button click execution.
     private void TurnSystem_OnEndTurn(object sender, EventArgs e) {
+
+        //Prevent action game is over.
+        if(GameOverHandler.INSTANCE.CheckGameIsOver()) {
+            return;
+        }
+
         //Debug.Log("A turn has ended.");
         UpdateTurnCounter();
         ToggleButtonVisibility();
     }
 
+    //Changes the text fields at the top of the screen displaying whose turn it currently is.
     private void UpdateTurnCounter() {
 
         //Update turn counter text when a turn is ended for each player.

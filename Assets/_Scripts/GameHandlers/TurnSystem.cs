@@ -6,6 +6,10 @@ using UnityEngine.UI;
 using Photon.Pun;
 using TMPro;
 
+/*
+ * Script for dealing with logic for rotating between Player turns.
+ * Used by Scripts that may require turn-based logic e.g. TurnSystemUI, or UnitActionSystem.
+ */
 public class TurnSystem : MonoBehaviour {
     
     public static TurnSystem INSTANCE {get; private set;}
@@ -46,13 +50,14 @@ public class TurnSystem : MonoBehaviour {
         EnemyUnitUI.INSTANCE.UpdateTotalGoldField();
     }
 
+    //Let both clients know that the Player turn will be changing.
     [PunRPC]
     private void NextTurn(bool playerTurn) {
         turnTracker++;
         //Debug.Log("Current turn: " + turnTracker);
 
         isPlayer1Turn = !playerTurn;
-        Debug.Log("Currently is the turn of Player 1: " + isPlayer1Turn);
+        //Debug.Log("Currently is the turn of Player 1: " + isPlayer1Turn);
 
         //Generate Gold for the Player whose turn is next.
         GoldManager.INSTANCE.GenerateGoldForTurn();
@@ -61,14 +66,6 @@ public class TurnSystem : MonoBehaviour {
         ResetTimer();
         
         OnEndTurn?.Invoke(this, EventArgs.Empty);
-    }
-
-    public int GetTurnTracker() {
-        return turnTracker;
-    }
-
-    public bool IsPlayer1Turn() {
-        return isPlayer1Turn;
     }
 
     //Reduce the timer by 1 every second.
@@ -104,6 +101,15 @@ public class TurnSystem : MonoBehaviour {
 
     public void UpdateTimerText(TextMeshProUGUI timer) {
         timer.text = seconds.ToString();
+    }
+
+    //Getters.
+    public int GetTurnTracker() {
+        return turnTracker;
+    }
+
+    public bool IsPlayer1Turn() {
+        return isPlayer1Turn;
     }
 
 }

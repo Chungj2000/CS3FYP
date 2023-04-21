@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ * Script which deals with the visual healthbar component that are aligned overhead of Units.
+ */
 public class UnitOverheadUI : MonoBehaviour {
 
     [SerializeField] private UnitHandler unit;
@@ -25,7 +28,9 @@ public class UnitOverheadUI : MonoBehaviour {
         transform.LookAt(transform.position + directionToCamera * -1);
     }
 
+    //Functions below ensure that the Healthbar is always visually updated whenever health values are changed.
     private void UpdateHealthBar() {
+        //Adjust fill amount via a normalized value of MaxHP and HP of unit.
         healthBar.fillAmount = unit.GetCurrentHealth();
     }
 

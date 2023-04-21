@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * A Script for handling logic of the visuals components for each GridTile.
+ * Includes visibility functions and hover over effect toggles.
+ */
 public class GridVisualSingle : MonoBehaviour {
      
     [SerializeField] private MeshRenderer meshRenderer;

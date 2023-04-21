@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+/*
+ * Action Script used for summoning Units from the Fortress. Only available for Building type Units currently.
+ */
 public class SummonAction : AbstractAction {
 
     private int summonRange;
@@ -70,6 +73,7 @@ public class SummonAction : AbstractAction {
 
     }
 
+    //Declare values needed to summon the selected Unit.
     private void InitialiseSummon() {
 
         Vector3 rotationVector;
@@ -87,6 +91,7 @@ public class SummonAction : AbstractAction {
 
         summonedRotationAngle = Quaternion.Euler(rotationVector.x, rotationVector.y, rotationVector.z);
 
+        //How much the selected Unit will cost.
         summonCost = summoningUnitPrefab.GetComponent<UnitHandler>().GetParamGOLD_COST();
 
     }

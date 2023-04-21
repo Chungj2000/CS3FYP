@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Script solely responsible for the visual components of the MainMenuUI.
+ */
 public class MainMenuUI : AbstractMainMenu {
     
     private PlayMenuUI playMenu;
@@ -16,8 +19,7 @@ public class MainMenuUI : AbstractMainMenu {
         optionsMenu = GetComponent<OptionsMenuUI>();
     }
 
-    //Button interactions.
-
+    //Button functions.
     public void PlayClicked() {
         Debug.Log("Play clicked.");
 

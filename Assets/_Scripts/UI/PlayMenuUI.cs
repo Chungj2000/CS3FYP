@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+/*
+ * Script solely responsible for the visual components of the PlayMenuUI in the MainMenu Scene.
+ */
 public class PlayMenuUI : AbstractMainMenu {
 
     private MainMenuUI mainMenu;
@@ -23,6 +26,7 @@ public class PlayMenuUI : AbstractMainMenu {
         sessionHandler = GetComponent<CreateSessionHandler>();
     }
 
+    //Button functions.
     public void CreateSessionClicked() {
         Debug.Log("Create Session clicked.");
 
@@ -46,7 +50,7 @@ public class PlayMenuUI : AbstractMainMenu {
         this.HideMenu();
     }
 
-    //Create a random session key using the alphabet with 8 characters.
+    //Create a random session key using the alphabet with 8 characters. Currently unused.
     private void CreateRandomSessionKey() {
 
         Debug.Log("Generating a random key.");

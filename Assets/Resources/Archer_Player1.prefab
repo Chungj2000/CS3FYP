@@ -469,9 +469,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f496f33d72f1fdd4688143ddc5b27a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paramHP: 10
-  paramATK: 4
-  paramDEF: 0
+  paramHP: 100
+  paramATK: 35
+  paramDEF: 5
   paramMOVE: 2
   paramATK_RANGE: 2
   paramGOLD_COST: 15
@@ -552,8 +552,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 0}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

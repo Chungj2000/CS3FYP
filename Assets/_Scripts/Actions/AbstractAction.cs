@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+/*
+ * An abstract class containing base functions needed for actions.
+ * Includes validation, and event functins, and keeps track of what unit is performing the action.
+ */
 public abstract class AbstractAction : MonoBehaviour {
     
     protected UnitHandler unit;

@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * A Script that converts serialized data to create a Grid using GridTiles via 2D array.
+ */
 public class GridSystem {
     
-    //private GridXbyZ<Tile> grid;
     [SerializeField] int gridHeight = 10;
     [SerializeField] int gridWidth = 10;
     [SerializeField] float tileSize = 2f;
@@ -29,14 +31,7 @@ public class GridSystem {
         }
     }
 
-    public Vector3 GetWorldPosition(TilePosition tilePosition) {
-        return new Vector3(tilePosition.x, 0, tilePosition.z) * tileSize;
-    }
-
-    public TilePosition GetTilePosition(Vector3 worldPosition) {
-        return new TilePosition(Mathf.RoundToInt(worldPosition.x / tileSize), Mathf.RoundToInt(worldPosition.z / tileSize));    
-    }
-
+    //Test function for displaying text positions of each Grid on the World Space. Currently not in use.
     public void CreateDebugobjects(Transform debugPrefab) {
         for(int x = 0; x < gridWidth; x++) {
             for(int z = 0; z < gridHeight; z++) {
@@ -51,15 +46,24 @@ public class GridSystem {
         }
     }
 
-    public GridTile GetGridTile(TilePosition tilePosition) {
-        return gridTiles[tilePosition.x, tilePosition.z];
-    }
-
+    //Getters.
     public bool IsValidPosition(TilePosition position) {
         return position.x >= 0 && 
                position.z >= 0 && 
                position.x < gridWidth && 
                position.z < gridHeight;
+    }
+
+    public GridTile GetGridTile(TilePosition tilePosition) {
+        return gridTiles[tilePosition.x, tilePosition.z];
+    }
+
+    public Vector3 GetWorldPosition(TilePosition tilePosition) {
+        return new Vector3(tilePosition.x, 0, tilePosition.z) * tileSize;
+    }
+
+    public TilePosition GetTilePosition(Vector3 worldPosition) {
+        return new TilePosition(Mathf.RoundToInt(worldPosition.x / tileSize), Mathf.RoundToInt(worldPosition.z / tileSize));    
     }
 
     public int GetHeight() {
