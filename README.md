@@ -11,10 +11,11 @@ The aim of this project is to create a **turn-based strategy game** that can be 
 - [x] Implement logic to handle Player interactions with Units, including:
   - [x] Unit Parameters.
   - [x] Unit Selection.
-  - [x] Unit Actions (E.g. Move, Attack, Summon).
+  - [x] Unit Actions *(E.g. Move, Attack, Summon)*.
+  - [x] Unit health logic and visual healthbar.
   - [x] Unit pool of Prefabs and Variants.
 - [x] Implement a *Turn-Based System*.
-- [x] Implement Multiplayer intergration using [```Photon Engine```](https://www.photonengine.com/pun) framework. This include:
+- [x] Implement Multiplayer intergration using [```Photon Engine```](https://www.photonengine.com/pun) framework. This includes:
   - [x] Session handling on the Main Menu.
   - [x] Remote Procedural Calls for Unit interactions.
   - [x] Integrate TurnSystem for Player turn rotation.
