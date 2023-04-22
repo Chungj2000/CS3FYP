@@ -11,10 +11,23 @@ public class CameraInputHandler : MonoBehaviour {
 
     public static CameraInputHandler INSTANCE {get; private set;}
     
+    [Header("Camera Controll Parameters")]
     [SerializeField] private float moveSpeed = 7.5f;
     [SerializeField] private float zoomSpeed = 2f;
     [SerializeField] private float rotationSpeed = 100f;
     [SerializeField] private CinemachineVirtualCamera vCamera;
+
+    [Header("Restrict Camera To")]
+    [SerializeField] private float lockCameraX_Min = 0f;
+    [SerializeField] private float lockCameraX_Max = 20f;
+    [SerializeField] private float lockCameraZ_Min = 0f;
+    [SerializeField] private float lockCameraZ_Max = 20f;
+
+    private Vector3 cameraMoveX_Min;
+    private Vector3 cameraMoveX_Max;
+    private Vector3 cameraMoveZ_Min;
+    private Vector3 cameraMoveZ_Max;
+
 
     private const float MIN_FOV = 25f;
     private const float MAX_FOV = 60f;
@@ -58,7 +71,25 @@ public class CameraInputHandler : MonoBehaviour {
         Vector3 cameraMoveVector = new Vector3(cameraMoveInput.x, 0f, cameraMoveInput.y);
         //Ensure camera move inputs reflect camera rotation.
         Vector3 cameraMoveDirection = transform.forward * cameraMoveVector.z + transform.right * cameraMoveVector.x;
+        
         transform.position += cameraMoveDirection * moveSpeed * Time.deltaTime;
+
+        //Set boundaries for where the camera can move to using mix & max values.
+        cameraMoveX_Min = new Vector3(lockCameraX_Min, 0f, transform.position.z);
+        cameraMoveX_Max = new Vector3(lockCameraX_Max, 0f, transform.position.z);
+        cameraMoveZ_Min = new Vector3(transform.position.x, 0f, lockCameraZ_Min);
+        cameraMoveZ_Max = new Vector3(transform.position.x, 0f, lockCameraZ_Max);
+
+        //Transform position logic for boundaries.
+        if(transform.position.x < lockCameraX_Min) {
+            transform.position = cameraMoveX_Min;
+        } else if (transform.position.x > lockCameraX_Max) {
+            transform.position = cameraMoveX_Max;
+        } else if (transform.position.z < lockCameraZ_Min) {
+            transform.position = cameraMoveZ_Min;
+        } else if (transform.position.z > lockCameraZ_Max) {
+            transform.position = cameraMoveZ_Max;
+        }
     }
 
     //Q & E input keys for pivoting the camera left and right.

@@ -19,7 +19,7 @@ public class GridVisualSingle : MonoBehaviour {
     }
 
     public void HoverGridVisual() {
-        meshRenderer.material.color = Color.green;
+        meshRenderer.material.color = Color.red;
     }
 
     public void HoverGridVisualDefault() {
