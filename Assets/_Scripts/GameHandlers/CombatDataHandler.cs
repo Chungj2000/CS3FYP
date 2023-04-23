@@ -32,7 +32,7 @@ public class CombatDataHandler : MonoBehaviour {
 
         CombatDataType.WeaponType weaponType = attackingUnit.GetWeaponType();
         Debug.Log("Attacking Unit Weapon Type: " + weaponType);
-        CombatDataType.ArmourType armourType = attackingUnit.GetArmourType();
+        CombatDataType.ArmourType armourType = defendingUnit.GetArmourType();
         Debug.Log("Defending Unit Armour Type: " + armourType);
 
         //Pierce Weapons

@@ -10,8 +10,6 @@ using Photon.Pun;
 public class SummonAction : AbstractAction {
 
     private int summonRange;
-    private Action onAttackComplete; // = 10;
-
     private string summoningUnit;
     private GameObject summoningUnitPrefab;
     private GameObject summonedUnit;

@@ -13,6 +13,7 @@ public class OptionsMenuUI : AbstractMainMenu {
 
     [SerializeField] private Toggle fullscreenToggle;
     [SerializeField] private TMP_Dropdown resolutionDropdown;
+    [SerializeField] private Slider volumeSlider;
 
     private Resolution[] resolutions;
     private List<Resolution> filteredResolutions;
@@ -94,6 +95,11 @@ public class OptionsMenuUI : AbstractMainMenu {
 
         //Save index for when opening OptionsMenu in another Scene.
         currentResolutionIndex = resolutionIndex;
+    }
+
+    //Set the volume based on what is currently designated on the slider.
+    public void SetVolumeFromVolumeSlider() {
+        SoundSystem.INSTANCE.SetVolume(volumeSlider.value);
     }
 
     //Ensure selected options are correctly displayed when opening Options Menu in another Scene.

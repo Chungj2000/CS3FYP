@@ -18,8 +18,11 @@ public class GameOverHandler : MonoBehaviour {
     private const string mainMenu = "MainMenu";
     
     private bool isVictor, isGameActive, gameIsOver;
+    private AudioSource sfxSource;
 
     private void Awake() {
+        sfxSource = GetComponent<AudioSource>();
+
         isGameActive = false;
         gameIsOver = false;
 
@@ -90,6 +93,9 @@ public class GameOverHandler : MonoBehaviour {
             GamePauseHandler.INSTANCE.TurnOffPause();
             DeclareClientLose();
         }
+
+        //Play audio clip for game over.
+        SoundSystem.INSTANCE.PlaySFX(SoundSystem.INSTANCE.GetGameOverSFX());
     }
 
     //Declaration methods.

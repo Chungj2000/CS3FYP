@@ -120,9 +120,6 @@ public class UnitHandler : MonoBehaviour {
     //Manipulate HP of the Unit.
     public void TakeDamage() {
 
-        //Set defender for damage calculations.
-        CombatDataHandler.INSTANCE.SetDefendingUnit(this);
-
         int damageValue = CombatDataHandler.INSTANCE.CombatDataCalculateDamage();
 
         //If damageValue less than or equal to 0, default the damage received to 10.

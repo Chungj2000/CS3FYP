@@ -14,8 +14,6 @@ public class AttackAction : AbstractAction {
     [SerializeField] private float rotateSpeed = 15f;
 
     private int attackRange;
-    private int attackParameter;
-    private Action onAttackComplete; // = 10;
     private UnitHandler targetedUnit;
     private bool isActive;
 
@@ -62,7 +60,7 @@ public class AttackAction : AbstractAction {
             onActionComplete();
             //Debug.Log("Unit now facing target.");
 
-            view.RPC(nameof(Attack), RpcTarget.AllBuffered, null);
+            view.RPC(nameof(RPC_Attack), RpcTarget.AllBuffered, null);
 
             //Turn off move updates, until action is activated again.
             isActive = false;
@@ -77,7 +75,7 @@ public class AttackAction : AbstractAction {
         this.onActionComplete = onAttackComplete;
 
         //Set targeted unit based on selected unit tile containing an enemy, for both clients.
-        view.RPC(nameof(SetTarget), RpcTarget.AllBuffered, position.x, position.z);
+        view.RPC(nameof(RPC_SetTarget), RpcTarget.AllBuffered, position.x, position.z);
 
         //Debug.Log("Attacking: " + targetedUnit);
 
@@ -87,7 +85,7 @@ public class AttackAction : AbstractAction {
 
     //Ensure both clients know who the targetted unit is for the attack.
     [PunRPC]
-    private void SetTarget(int x, int z) {
+    private void RPC_SetTarget(int x, int z) {
         //RPCs cannot take custom types so recreate targetted TilePosition using primitives.
         TilePosition position = new TilePosition(x, z);
         targetedUnit = GridSystemHandler.INSTANCE.GetAUnitAtTilePosition(position);
@@ -175,9 +173,10 @@ public class AttackAction : AbstractAction {
 
     //Ensure both clients are updated for the targetted Unit taking damage.
     [PunRPC]
-    private void Attack() {
-        //Set the attacker as targetted unit for damage calculations.
+    private void RPC_Attack() {
+        //Set the attacker and defender for damage calculations.
         CombatDataHandler.INSTANCE.SetAttackingUnit(unit);
+        CombatDataHandler.INSTANCE.SetDefendingUnit(targetedUnit);
         targetedUnit.TakeDamage();
     }
 

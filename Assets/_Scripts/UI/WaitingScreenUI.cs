@@ -14,9 +14,11 @@ public class WaitingScreenUI : MonoBehaviourPunCallbacks {
     [SerializeField] private WaitingScreenAnimation animation;
 
     private TurnSystemUI turnSystemUI;
+    private AudioSource musicLoop;
 
     private void Awake() {
         turnSystemUI = GetComponent<TurnSystemUI>();
+        musicLoop = GetComponent<AudioSource>();
     }
 
     private void Start() {
@@ -74,6 +76,10 @@ public class WaitingScreenUI : MonoBehaviourPunCallbacks {
         UnitShopUI.INSTANCE.InitialiseUnitShop();
         CameraInputHandler.INSTANCE.InitiateCamera();
         GoldManager.INSTANCE.GenerateGoldForTurn();
+
+        //Play music.
+        SoundSystem.INSTANCE.PlayMusic(SoundSystem.INSTANCE.GetMusicLoop());
+
         StartGame();
     }
 

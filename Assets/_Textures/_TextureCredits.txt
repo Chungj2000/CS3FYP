@@ -1,10 +1,19 @@
+GridTexture -> Me
+UnitStateTexture -> Me
 Back_Button -> https://www.shareicon.net/music-sound-back-audio-rewind-doodle-887077 (Modified)
 Close_Button -> https://www.citypng.com/photo/17475/transparent-hd-handdrawn-doodle-white-x-close-icon (Modified)
-GridTexture -> Me
+GridSprite -> Me
 Health -> Me
 HealthBarBackground -> Me
-UnitStateTexture -> Me
 White_Outline -> https://www.dlf.pt/ddetail/oRRhJJ_paint-stroke-border-hd-png-download/
 YouWin/Lose_Banner -> https://www.dreamstime.com/you-lose-win-defeat-inscriptions-award-ribbons-game-ui-you-lose-win-defeat-inscriptions-award-ribbons-image218995890
+ParamMAX_HP -> Ladyluck.itch.io (Modified)
+ParamHP -> Ladyluck.itch.io
+ParamATK -> Ladyluck.itch.io
+ParamATK_SPD -> Ladyluck.itch.io (Modified)
+ParamATK_RANGE -> https://s3.amazonaws.com/aqcards/index.html
+ParamMOVE_SPD -> Ladyluck.itch.io
+ParamDEF -> Ladyluck.itch.io
 ParamGOLD_COST -> https://flaticons.net/custom.php?i=5kXTbacgmk4zIWI6IPI6vF8yRrnI0
+ParamTOTAL_GOLD -> https://flaticons.net/customize.php?dir=Banking&icon=Gold.png
 UnitIcons -> Self Screenshotted Prefabs of Units.
