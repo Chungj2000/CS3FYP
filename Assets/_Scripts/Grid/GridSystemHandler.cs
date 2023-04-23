@@ -12,6 +12,11 @@ public class GridSystemHandler : MonoBehaviour {
 
     public static GridSystemHandler INSTANCE {get; private set;}
     //[SerializeField] private Transform gridDebugPrefab;
+
+    [SerializeField] private int gridWidth = 10;
+    [SerializeField] private int gridHeight = 10;
+    [SerializeField] private float gridTileSize = 2f;
+
     private GridSystem gridSystem;
 
     private void Awake() {
@@ -24,7 +29,7 @@ public class GridSystemHandler : MonoBehaviour {
             return;
         }
 
-        gridSystem = new GridSystem(10,10, 2f);
+        gridSystem = new GridSystem(gridWidth, gridHeight, gridTileSize);
         //gridSystem.CreateDebugobjects(gridDebugPrefab);
     }
 
